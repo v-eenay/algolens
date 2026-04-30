@@ -1,12 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { IBM_Plex_Mono, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['300', '400'], // Thin weights only
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['300', '400'], // Thin weights only
+  variable: '--font-ibm-plex-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'ProGyan AlgoLens',
-  description: 'AI-Powered Algorithm Visualization Platform',
+  title: 'AlgoLens — Algorithm Visualization Workspace',
+  description:
+    'Interactive workspace for step-by-step algorithm visualization with AI-powered explanations. Visualize sorting, searching, and graph algorithms in real time.',
 };
 
 export default function RootLayout({
@@ -15,13 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {/* Providers will be added here */}
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body
+        className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} h-screen w-screen overflow-hidden bg-background font-[family-name:var(--font-space-grotesk)] font-light text-foreground antialiased`}
+      >
         {children}
       </body>
     </html>
   );
 }
-
-// Made with Bob
