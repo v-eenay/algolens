@@ -4,8 +4,6 @@ import {
   Code2,
   MessageSquare,
   MoonStar,
-  PanelRightClose,
-  PanelRightOpen,
   Sparkles,
   SunMedium,
   TerminalSquare,
@@ -28,7 +26,7 @@ export function TopNav({
   theme,
   language,
   activeTab,
-  sidePanelOpen,
+  
   terminalOpen,
   currentFrameIndex,
   totalFrames,
@@ -36,7 +34,7 @@ export function TopNav({
   selectedAlgorithm,
   onAlgorithmChange,
   onToggleTheme,
-  onToggleSidePanel,
+  
   onToggleTerminal,
   onTogglePanel,
 }: TopNavProps & {
@@ -92,7 +90,7 @@ export function TopNav({
               {language}
             </span>
             <span className={pillClasses}>
-              {activeTab === 'dry-run' ? 'Dry Run' : 'Animated'}
+              {activeTab === 'dry-run' ? 'Dry Run' : 'Visualization'}
             </span>
             <span className={pillClasses}>
               Frame {currentFrameIndex + 1}/{totalFrames}

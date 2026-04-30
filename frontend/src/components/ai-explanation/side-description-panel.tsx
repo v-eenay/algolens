@@ -142,12 +142,12 @@ export function SideDescriptionPanel({
               </div>
               <div className="flex items-center justify-between">
                 <span>Active Line</span>
-                <span>{currentFrame.activeLine}</span>
+                <span>{typeof currentFrame.activeLine === 'object' ? JSON.stringify(currentFrame.activeLine) : currentFrame.activeLine}</span>
               </div>
               {currentFrame.variables?.pivot !== undefined && (
                 <div className="flex items-center justify-between">
                   <span>Pivot</span>
-                  <span className="text-primary">{currentFrame.variables.pivot}</span>
+                  <span className="text-primary">{typeof currentFrame.variables.pivot === 'object' && currentFrame.variables.pivot !== null ? String((currentFrame.variables.pivot as any).value) : String(currentFrame.variables.pivot)}</span>
                 </div>
               )}
             </div>

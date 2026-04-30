@@ -1,0 +1,112 @@
+[
+  {
+    "frameIndex": 0,
+    "activeLine": 1,
+    "array": [38, 27, 43, 3, 9, 82, 10],
+    "comparing": [],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": -1, "j": 0 },
+    "description": "Initialize: pivot = arr[high] = 10. Set i = low - 1 = -1, begin scanning from j = 0."
+  },
+  {
+    "frameIndex": 1,
+    "activeLine": 5,
+    "array": [38, 27, 43, 3, 9, 82, 10],
+    "comparing": [0, 6],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": -1, "j": 0 },
+    "description": "Compare arr[0] = 38 with pivot = 10. 38 > 10, so no swap. Advance j."
+  },
+  {
+    "frameIndex": 2,
+    "activeLine": 5,
+    "array": [38, 27, 43, 3, 9, 82, 10],
+    "comparing": [1, 6],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": -1, "j": 1 },
+    "description": "Compare arr[1] = 27 with pivot = 10. 27 > 10, so no swap. Advance j."
+  },
+  {
+    "frameIndex": 3,
+    "activeLine": 5,
+    "array": [38, 27, 43, 3, 9, 82, 10],
+    "comparing": [2, 6],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": -1, "j": 2 },
+    "description": "Compare arr[2] = 43 with pivot = 10. 43 > 10, so no swap. Advance j."
+  },
+  {
+    "frameIndex": 4,
+    "activeLine": 6,
+    "array": [38, 27, 43, 3, 9, 82, 10],
+    "comparing": [3, 6],
+    "swapping": [0, 3],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": 0, "j": 3 },
+    "description": "Compare arr[3] = 3 with pivot = 10. 3 <= 10 → increment i to 0, swap arr[0] and arr[3]."
+  },
+  {
+    "frameIndex": 5,
+    "activeLine": 7,
+    "array": [3, 27, 43, 38, 9, 82, 10],
+    "comparing": [],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": 0, "j": 3 },
+    "description": "After swap: arr = [3, 27, 43, 38, 9, 82, 10]. Element 3 is now in its correct partition side."
+  },
+  {
+    "frameIndex": 6,
+    "activeLine": 6,
+    "array": [3, 27, 43, 38, 9, 82, 10],
+    "comparing": [4, 6],
+    "swapping": [1, 4],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": 1, "j": 4 },
+    "description": "Compare arr[4] = 9 with pivot = 10. 9 <= 10 → increment i to 1, swap arr[1] and arr[4]."
+  },
+  {
+    "frameIndex": 7,
+    "activeLine": 7,
+    "array": [3, 9, 43, 38, 27, 82, 10],
+    "comparing": [],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": 1, "j": 4 },
+    "description": "After swap: arr = [3, 9, 43, 38, 27, 82, 10]. Elements 3 and 9 are on the left side."
+  },
+  {
+    "frameIndex": 8,
+    "activeLine": 5,
+    "array": [3, 9, 43, 38, 27, 82, 10],
+    "comparing": [5, 6],
+    "swapping": [],
+    "sorted": [],
+    "variables": { "pivot": 10, "i": 1, "j": 5 },
+    "description": "Compare arr[5] = 82 with pivot = 10. 82 > 10, so no swap. Loop ends."
+  },
+  {
+    "frameIndex": 9,
+    "activeLine": 8,
+    "array": [3, 9, 43, 38, 27, 82, 10],
+    "comparing": [],
+    "swapping": [2, 6],
+    "sorted": [2],
+    "variables": { "pivot": 10, "i": 1, "j": 5 },
+    "description": "Place pivot: swap arr[i+1] = arr[2] with arr[high] = arr[6]. Pivot 10 moves to index 2."
+  },
+  {
+    "frameIndex": 10,
+    "activeLine": 9,
+    "array": [3, 9, 10, 38, 27, 82, 43],
+    "comparing": [],
+    "swapping": [],
+    "sorted": [0, 1, 2],
+    "variables": { "pivot": 10, "i": 1, "partitionIndex": 2 },
+    "description": "Partition complete. Return index 2. All elements left of index 2 are <= 10, all right are > 10."
+  }
+]

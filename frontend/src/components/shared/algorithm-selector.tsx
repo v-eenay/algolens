@@ -46,7 +46,7 @@ const groupedAlgorithms = algorithms.reduce((acc, algo) => {
 }, {} as Record<string, AlgorithmOption[]>);
 
 export function AlgorithmSelector({ selectedAlgorithm, onAlgorithmChange }: AlgorithmSelectorProps) {
-  const selectedAlgo = algorithms.find(a => a.id === selectedAlgorithm);
+  // const selectedAlgo = algorithms.find(a => a.id === selectedAlgorithm);
 
   return (
     <div className="relative inline-flex items-center">

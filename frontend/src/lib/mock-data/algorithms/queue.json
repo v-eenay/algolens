@@ -1,0 +1,790 @@
+{
+  "id": "queue",
+  "name": "Queue (FIFO)",
+  "category": "Data Structure",
+  "description": "A Queue is a linear data structure that follows the First-In-First-Out (FIFO) principle. Elements are added at the rear (enqueue) and removed from the front (dequeue). Like a line of people waiting, the first person to join is the first to be served. Queues are used in scheduling, buffering, and breadth-first search algorithms.",
+  "timeComplexity": {
+    "best": "O(1)",
+    "average": "O(1)",
+    "worst": "O(1)"
+  },
+  "spaceComplexity": "O(n)",
+  "code": {
+    "python": "class Queue:\n    def __init__(self):\n        self.items = []\n    \n    def enqueue(self, item):\n        \"\"\"Add an item to the rear of the queue\"\"\"\n        self.items.append(item)\n    \n    def dequeue(self):\n        \"\"\"Remove and return the front item\"\"\"\n        if not self.is_empty():\n            return self.items.pop(0)\n        return None\n    \n    def front(self):\n        \"\"\"Return the front item without removing it\"\"\"\n        if not self.is_empty():\n            return self.items[0]\n        return None\n    \n    def is_empty(self):\n        \"\"\"Check if queue is empty\"\"\"\n        return len(self.items) == 0\n    \n    def size(self):\n        \"\"\"Return the number of items in the queue\"\"\"\n        return len(self.items)\n    \n    def display(self):\n        \"\"\"Display all items in the queue\"\"\"\n        return self.items\n\n# Example usage\nqueue = Queue()\nqueue.enqueue(10)\nqueue.enqueue(20)\nqueue.enqueue(30)\nprint(queue.display())  # [10, 20, 30]\nprint(queue.front())    # 10\nprint(queue.dequeue())  # 10\nprint(queue.display())  # [20, 30]",
+    "cpp": "#include <iostream>\n#include <queue>\nusing namespace std;\n\nclass Queue {\nprivate:\n    queue<int> items;\n    \npublic:\n    void enqueue(int item) {\n        items.push(item);\n    }\n    \n    int dequeue() {\n        if (!isEmpty()) {\n            int front = items.front();\n            items.pop();\n            return front;\n        }\n        return -1;\n    }\n    \n    int front() {\n        if (!isEmpty()) {\n            return items.front();\n        }\n        return -1;\n    }\n    \n    bool isEmpty() {\n        return items.empty();\n    }\n    \n    int size() {\n        return items.size();\n    }\n    \n    void display() {\n        queue<int> temp = items;\n        while (!temp.empty()) {\n            cout << temp.front() << \" \";\n            temp.pop();\n        }\n        cout << endl;\n    }\n};\n\nint main() {\n    Queue queue;\n    queue.enqueue(10);\n    queue.enqueue(20);\n    queue.enqueue(30);\n    queue.display();  // 10 20 30\n    cout << queue.front() << endl;  // 10\n    cout << queue.dequeue() << endl;  // 10\n    queue.display();  // 20 30\n    return 0;\n}",
+    "javascript": "class Queue {\n    constructor() {\n        this.items = [];\n    }\n    \n    enqueue(item) {\n        // Add an item to the rear of the queue\n        this.items.push(item);\n    }\n    \n    dequeue() {\n        // Remove and return the front item\n        if (!this.isEmpty()) {\n            return this.items.shift();\n        }\n        return null;\n    }\n    \n    front() {\n        // Return the front item without removing it\n        if (!this.isEmpty()) {\n            return this.items[0];\n        }\n        return null;\n    }\n    \n    isEmpty() {\n        // Check if queue is empty\n        return this.items.length === 0;\n    }\n    \n    size() {\n        // Return the number of items in the queue\n        return this.items.length;\n    }\n    \n    display() {\n        // Display all items in the queue\n        return this.items;\n    }\n}\n\n// Example usage\nconst queue = new Queue();\nqueue.enqueue(10);\nqueue.enqueue(20);\nqueue.enqueue(30);\nconsole.log(queue.display());  // [10, 20, 30]\nconsole.log(queue.front());    // 10\nconsole.log(queue.dequeue());  // 10\nconsole.log(queue.display());  // [20, 30]"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 20,
+        "C++": 41,
+        "JavaScript": 27
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Initial empty queue",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueueing 10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueued 10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 3,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueueing 20",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 4,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10,
+        20
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueued 20",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 5,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [
+        10,
+        20
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueueing 30",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 6,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10,
+        20,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueued 30",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 7,
+      "activeLine": {
+        "Python": 9,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [
+        10,
+        20,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Dequeueing",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 8,
+      "activeLine": {
+        "Python": 12,
+        "C++": 24,
+        "JavaScript": 15
+      },
+      "array": [
+        20,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Dequeued 10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 9,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [
+        20,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueueing 40",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 10,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        20,
+        30,
+        40
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Enqueued 40",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            },
+            {
+              "value": 40
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "A Queue is a fundamental FIFO (First-In-First-Out) data structure. Think of it like a line at a ticket counter - the first person to arrive is the first to be served. All operations (enqueue, dequeue, front) have O(1) time complexity. Queues are essential in scheduling algorithms, breadth-first search, handling asynchronous requests, and managing resources in operating systems."
+    }
+  ]
+}

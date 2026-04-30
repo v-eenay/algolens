@@ -10,6 +10,7 @@ import {
   RotateCcw,
   TerminalSquare,
   TimerReset,
+  Square,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { BottomDockProps } from '@/lib/types/types';
@@ -25,6 +26,7 @@ export function BottomDock({
   currentFrame,
   onToggleTerminal,
   onTogglePlay,
+  onStop,
   onStepBackward,
   onStepForward,
   onFrameChange,
@@ -34,7 +36,7 @@ export function BottomDock({
     ? (() => {
         const lines: string[] = [
           `> algolens exec --algorithm quick-sort-partition`,
-          `> frame=${currentFrame.frameIndex + 1}/${totalFrames}${currentFrame.variables?.pivot !== undefined ? `  pivot=${currentFrame.variables.pivot}` : ''}`,
+          `> frame=${currentFrame.frameIndex + 1}/${totalFrames}${currentFrame.variables?.pivot !== undefined ? `  pivot=${typeof currentFrame.variables.pivot === 'object' && currentFrame.variables.pivot !== null ? (currentFrame.variables.pivot as any).value : currentFrame.variables.pivot}` : ''}`,
           `[trace] active line -> ${currentFrame.activeLine}`,
         ];
 
@@ -158,6 +160,19 @@ export function BottomDock({
                   <Play className="mr-1.5 h-3.5 w-3.5" />
                 )}
                 {isPlaying ? 'Pause' : 'Play'}
+              </button>
+
+              {/* Stop */}
+              <button
+                id="transport-stop"
+                className={`${iconButtonClasses} border-border bg-background text-foreground hover:border-primary hover:text-primary disabled:opacity-40 disabled:cursor-not-allowed`}
+                onClick={onStop}
+                type="button"
+                disabled={atStart && !isPlaying}
+                title="Stop execution"
+              >
+                <Square className="mr-1.5 h-3 w-3" fill="currentColor" />
+                Stop
               </button>
 
               {/* Step forward */}

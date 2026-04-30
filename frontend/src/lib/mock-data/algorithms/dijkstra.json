@@ -1,0 +1,183 @@
+{
+  "id": "dijkstra",
+  "name": "Dijkstra's Shortest Path",
+  "category": "Graph",
+  "description": "Dijkstra's algorithm finds the shortest path between nodes in a weighted graph. It uses a greedy approach, always selecting the unvisited node with the smallest known distance. The algorithm maintains a set of visited nodes and updates distances to neighboring nodes, guaranteeing the shortest path in graphs with non-negative edge weights.",
+  "timeComplexity": {
+    "best": "O((V + E) log V)",
+    "average": "O((V + E) log V)",
+    "worst": "O((V + E) log V)"
+  },
+  "spaceComplexity": "O(V)",
+  "code": {
+    "python": "import heapq\n\ndef dijkstra(graph, start):\n    \"\"\"Find shortest paths from start node to all other nodes\"\"\"\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n    priority_queue = [(0, start)]\n    visited = set()\n    \n    while priority_queue:\n        current_distance, current_node = heapq.heappop(priority_queue)\n        \n        if current_node in visited:\n            continue\n        \n        visited.add(current_node)\n        \n        for neighbor, weight in graph[current_node].items():\n            distance = current_distance + weight\n            \n            if distance < distances[neighbor]:\n                distances[neighbor] = distance\n                heapq.heappush(priority_queue, (distance, neighbor))\n    \n    return distances\n\n# Example graph\ngraph = {\n    'A': {'B': 4, 'C': 2},\n    'B': {'C': 1, 'D': 5},\n    'C': {'D': 8, 'E': 10},\n    'D': {'E': 2},\n    'E': {}\n}\n\nresult = dijkstra(graph, 'A')\nprint(\"Shortest distances from A:\", result)",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <unordered_map>\n#include <limits>\nusing namespace std;\n\ntypedef pair<int, string> pis;\n\nunordered_map<string, int> dijkstra(unordered_map<string, unordered_map<string, int>>& graph, string start) {\n    unordered_map<string, int> distances;\n    for (auto& node : graph) {\n        distances[node.first] = INT_MAX;\n    }\n    distances[start] = 0;\n    \n    priority_queue<pis, vector<pis>, greater<pis>> pq;\n    pq.push({0, start});\n    \n    while (!pq.empty()) {\n        int currentDist = pq.top().first;\n        string currentNode = pq.top().second;\n        pq.pop();\n        \n        if (currentDist > distances[currentNode]) continue;\n        \n        for (auto& neighbor : graph[currentNode]) {\n            int distance = currentDist + neighbor.second;\n            \n            if (distance < distances[neighbor.first]) {\n                distances[neighbor.first] = distance;\n                pq.push({distance, neighbor.first});\n            }\n        }\n    }\n    \n    return distances;\n}\n\nint main() {\n    unordered_map<string, unordered_map<string, int>> graph = {\n        {\"A\", {{\"B\", 4}, {\"C\", 2}}},\n        {\"B\", {{\"C\", 1}, {\"D\", 5}}},\n        {\"C\", {{\"D\", 8}, {\"E\", 10}}},\n        {\"D\", {{\"E\", 2}}},\n        {\"E\", {}}\n    };\n    \n    auto result = dijkstra(graph, \"A\");\n    cout << \"Shortest distances from A:\" << endl;\n    for (auto& pair : result) {\n        cout << pair.first << \": \" << pair.second << endl;\n    }\n    \n    return 0;\n}",
+    "javascript": "function dijkstra(graph, start) {\n    // Find shortest paths from start node to all other nodes\n    const distances = {};\n    const visited = new Set();\n    const priorityQueue = [[0, start]];\n    \n    // Initialize distances\n    for (const node in graph) {\n        distances[node] = Infinity;\n    }\n    distances[start] = 0;\n    \n    while (priorityQueue.length > 0) {\n        // Sort to get minimum distance\n        priorityQueue.sort((a, b) => a[0] - b[0]);\n        const [currentDistance, currentNode] = priorityQueue.shift();\n        \n        if (visited.has(currentNode)) continue;\n        visited.add(currentNode);\n        \n        for (const neighbor in graph[currentNode]) {\n            const weight = graph[currentNode][neighbor];\n            const distance = currentDistance + weight;\n            \n            if (distance < distances[neighbor]) {\n                distances[neighbor] = distance;\n                priorityQueue.push([distance, neighbor]);\n            }\n        }\n    }\n    \n    return distances;\n}\n\n// Example graph\nconst graph = {\n    'A': {'B': 4, 'C': 2},\n    'B': {'C': 1, 'D': 5},\n    'C': {'D': 8, 'E': 10},\n    'D': {'E': 2},\n    'E': {}\n};\n\nconst result = dijkstra(graph, 'A');\nconsole.log('Shortest distances from A:', result);"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "array": [
+        0,
+        null,
+        null
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Initialize distances",
+      "visualization": {
+        "type": "graph",
+        "data": {
+          "nodes": [
+            {
+              "id": "0",
+              "value": 0
+            },
+            {
+              "id": "1",
+              "value": null
+            },
+            {
+              "id": "2",
+              "value": null
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [
+        0,
+        10,
+        5
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Relax edges from 0",
+      "visualization": {
+        "type": "graph",
+        "data": {
+          "nodes": [
+            {
+              "id": "0",
+              "value": 0
+            },
+            {
+              "id": "1",
+              "value": 10
+            },
+            {
+              "id": "2",
+              "value": 5
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": true
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": true
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "Dijkstra's algorithm is a greedy algorithm that finds the shortest path from a source node to all other nodes in a weighted graph with non-negative edges. It maintains a priority queue of nodes to visit, always selecting the node with the smallest known distance. As it visits each node, it updates the distances to its neighbors if a shorter path is found. The algorithm guarantees optimal shortest paths and is widely used in GPS navigation, network routing, and game pathfinding."
+    }
+  ]
+}

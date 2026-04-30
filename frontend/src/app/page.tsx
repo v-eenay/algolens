@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import { MockCodeEditorPanel } from '@/components/editor/mock-code-editor-panel';
 import { SideDescriptionPanel } from '@/components/ai-explanation/side-description-panel';
@@ -10,9 +10,6 @@ import { TopNav } from '@/components/layout/top-nav';
 import { EnhancedVisualizationPanel } from '@/components/visualization/enhanced-visualization-panel';
 
 import {
-  fetchEditorState,
-  fetchExecutionFrames,
-  fetchChatHistory,
   sendChatMessage,
 } from '@/lib/mock-data/mock-api';
 
@@ -35,7 +32,7 @@ export default function Home() {
 
   // ── Algorithm selection ───────────────────────────────────────────────────
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('quick-sort');
-  const [algorithmData, setAlgorithmData] = useState<any>(null);
+  const [, setAlgorithmData] = useState<any>(null);
 
   // ── UI state ──────────────────────────────────────────────────────────────
   const [language, setLanguage] = useState<EditorLanguage>('Python');
@@ -159,8 +156,17 @@ export default function Home() {
   }, [currentFrameIndex, frames.length, isPlaying]);
 
   // ── Derived data ──────────────────────────────────────────────────────────
-  const currentFrame = frames[currentFrameIndex] ?? null;
+  const rawCurrentFrame = frames[currentFrameIndex] ?? null;
   const currentEditorLang = editorState?.[language] ?? null;
+
+  let activeLine = 1;
+  if (rawCurrentFrame?.activeLine !== undefined) {
+    activeLine = typeof rawCurrentFrame.activeLine === 'object' 
+      ? (rawCurrentFrame.activeLine as any)[language] || 1
+      : rawCurrentFrame.activeLine;
+  }
+
+  const currentFrame = rawCurrentFrame ? { ...rawCurrentFrame, activeLine } : null;
 
   // ── Handlers ──────────────────────────────────────────────────────────────
   const handleThemeToggle = useCallback(() => {
@@ -176,6 +182,11 @@ export default function Home() {
       return !prev;
     });
   }, [currentFrameIndex, frames.length]);
+
+  const handleStop = useCallback(() => {
+    setIsPlaying(false);
+    setCurrentFrameIndex(0);
+  }, []);
 
   const handleStepBackward = useCallback(() => {
     setIsPlaying(false);
@@ -320,6 +331,7 @@ export default function Home() {
           currentFrame={currentFrame}
           onToggleTerminal={() => setTerminalOpen((s) => !s)}
           onTogglePlay={handlePlayToggle}
+          onStop={handleStop}
           onStepBackward={handleStepBackward}
           onStepForward={handleStepForward}
           onFrameChange={handleFrameChange}

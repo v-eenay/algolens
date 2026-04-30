@@ -1,0 +1,535 @@
+{
+  "id": "hash-table",
+  "name": "Hash Table",
+  "category": "Data Structure",
+  "description": "A Hash Table is a data structure that implements an associative array, mapping keys to values. It uses a hash function to compute an index into an array of buckets, from which the desired value can be found. Hash tables provide O(1) average-case time complexity for insertions, deletions, and lookups. Collision handling is done through chaining (linked lists at each bucket).",
+  "timeComplexity": {
+    "best": "O(1)",
+    "average": "O(1)",
+    "worst": "O(n)"
+  },
+  "spaceComplexity": "O(n)",
+  "code": {
+    "python": "class HashTable:\n    def __init__(self, size=10):\n        self.size = size\n        self.table = [[] for _ in range(size)]\n    \n    def hash_function(self, key):\n        \"\"\"Simple hash function using modulo\"\"\"\n        return hash(key) % self.size\n    \n    def insert(self, key, value):\n        \"\"\"Insert a key-value pair\"\"\"\n        index = self.hash_function(key)\n        # Check if key exists and update\n        for i, (k, v) in enumerate(self.table[index]):\n            if k == key:\n                self.table[index][i] = (key, value)\n                return\n        # Add new key-value pair\n        self.table[index].append((key, value))\n    \n    def get(self, key):\n        \"\"\"Retrieve value by key\"\"\"\n        index = self.hash_function(key)\n        for k, v in self.table[index]:\n            if k == key:\n                return v\n        return None\n    \n    def delete(self, key):\n        \"\"\"Delete a key-value pair\"\"\"\n        index = self.hash_function(key)\n        for i, (k, v) in enumerate(self.table[index]):\n            if k == key:\n                del self.table[index][i]\n                return True\n        return False\n    \n    def display(self):\n        \"\"\"Display the hash table\"\"\"\n        for i, bucket in enumerate(self.table):\n            if bucket:\n                print(f\"Bucket {i}: {bucket}\")\n\n# Example usage\nht = HashTable(5)\nht.insert(\"apple\", 10)\nht.insert(\"banana\", 20)\nht.insert(\"orange\", 30)\nprint(ht.get(\"banana\"))  # 20\nht.delete(\"apple\")\nht.display()",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <list>\n#include <string>\nusing namespace std;\n\nclass HashTable {\nprivate:\n    int size;\n    vector<list<pair<string, int>>> table;\n    \n    int hashFunction(const string& key) {\n        int hash = 0;\n        for (char c : key) {\n            hash += c;\n        }\n        return hash % size;\n    }\n    \npublic:\n    HashTable(int s = 10) : size(s) {\n        table.resize(size);\n    }\n    \n    void insert(const string& key, int value) {\n        int index = hashFunction(key);\n        // Check if key exists and update\n        for (auto& pair : table[index]) {\n            if (pair.first == key) {\n                pair.second = value;\n                return;\n            }\n        }\n        // Add new key-value pair\n        table[index].push_back({key, value});\n    }\n    \n    int get(const string& key) {\n        int index = hashFunction(key);\n        for (const auto& pair : table[index]) {\n            if (pair.first == key) {\n                return pair.second;\n            }\n        }\n        return -1;\n    }\n    \n    bool remove(const string& key) {\n        int index = hashFunction(key);\n        for (auto it = table[index].begin(); it != table[index].end(); ++it) {\n            if (it->first == key) {\n                table[index].erase(it);\n                return true;\n            }\n        }\n        return false;\n    }\n    \n    void display() {\n        for (int i = 0; i < size; i++) {\n            if (!table[i].empty()) {\n                cout << \"Bucket \" << i << \": \";\n                for (const auto& pair : table[i]) {\n                    cout << \"(\" << pair.first << \", \" << pair.second << \") \";\n                }\n                cout << endl;\n            }\n        }\n    }\n};\n\nint main() {\n    HashTable ht(5);\n    ht.insert(\"apple\", 10);\n    ht.insert(\"banana\", 20);\n    ht.insert(\"orange\", 30);\n    cout << ht.get(\"banana\") << endl;\n    ht.remove(\"apple\");\n    ht.display();\n    return 0;\n}",
+    "javascript": "class HashTable {\n    constructor(size = 10) {\n        this.size = size;\n        this.table = Array.from({ length: size }, () => []);\n    }\n    \n    hashFunction(key) {\n        // Simple hash function using character codes\n        let hash = 0;\n        for (let i = 0; i < key.length; i++) {\n            hash += key.charCodeAt(i);\n        }\n        return hash % this.size;\n    }\n    \n    insert(key, value) {\n        // Insert a key-value pair\n        const index = this.hashFunction(key);\n        // Check if key exists and update\n        for (let i = 0; i < this.table[index].length; i++) {\n            if (this.table[index][i][0] === key) {\n                this.table[index][i][1] = value;\n                return;\n            }\n        }\n        // Add new key-value pair\n        this.table[index].push([key, value]);\n    }\n    \n    get(key) {\n        // Retrieve value by key\n        const index = this.hashFunction(key);\n        for (const [k, v] of this.table[index]) {\n            if (k === key) {\n                return v;\n            }\n        }\n        return null;\n    }\n    \n    delete(key) {\n        // Delete a key-value pair\n        const index = this.hashFunction(key);\n        for (let i = 0; i < this.table[index].length; i++) {\n            if (this.table[index][i][0] === key) {\n                this.table[index].splice(i, 1);\n                return true;\n            }\n        }\n        return false;\n    }\n    \n    display() {\n        // Display the hash table\n        for (let i = 0; i < this.size; i++) {\n            if (this.table[i].length > 0) {\n                console.log(`Bucket ${i}:`, this.table[i]);\n            }\n        }\n    }\n}\n\n// Example usage\nconst ht = new HashTable(5);\nht.insert('apple', 10);\nht.insert('banana', 20);\nht.insert('orange', 30);\nconsole.log(ht.get('banana'));  // 20\nht.delete('apple');\nht.display();"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "key": {
+          "value": 1,
+          "type": "int"
+        },
+        "val": {
+          "value": 10,
+          "type": "int"
+        }
+      },
+      "description": "Hashing key 1 to index 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": "[0]: "
+            },
+            {
+              "value": "[1]: "
+            },
+            {
+              "value": "[2]: "
+            },
+            {
+              "value": "[3]: "
+            },
+            {
+              "value": "[4]: "
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": true
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": true
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "key": {
+          "value": 1,
+          "type": "int"
+        },
+        "val": {
+          "value": 10,
+          "type": "int"
+        }
+      },
+      "description": "Inserted [1, 10] at index 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": "[0]: "
+            },
+            {
+              "value": "[1]: 1:10"
+            },
+            {
+              "value": "[2]: "
+            },
+            {
+              "value": "[3]: "
+            },
+            {
+              "value": "[4]: "
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": true
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "key": {
+          "value": 6,
+          "type": "int"
+        },
+        "val": {
+          "value": 60,
+          "type": "int"
+        }
+      },
+      "description": "Hashing key 6 to index 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": "[0]: "
+            },
+            {
+              "value": "[1]: [object Object]"
+            },
+            {
+              "value": "[2]: "
+            },
+            {
+              "value": "[3]: "
+            },
+            {
+              "value": "[4]: "
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": true
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": true
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 3,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "key": {
+          "value": 6,
+          "type": "int"
+        },
+        "val": {
+          "value": 60,
+          "type": "int"
+        }
+      },
+      "description": "Inserted [6, 60] at index 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": "[0]: "
+            },
+            {
+              "value": "[1]: 1:10, 6:60"
+            },
+            {
+              "value": "[2]: "
+            },
+            {
+              "value": "[3]: "
+            },
+            {
+              "value": "[4]: "
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": true
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 4,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "key": {
+          "value": 2,
+          "type": "int"
+        },
+        "val": {
+          "value": 20,
+          "type": "int"
+        }
+      },
+      "description": "Hashing key 2 to index 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": "[0]: "
+            },
+            {
+              "value": "[1]: [object Object], [object Object]"
+            },
+            {
+              "value": "[2]: "
+            },
+            {
+              "value": "[3]: "
+            },
+            {
+              "value": "[4]: "
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": true
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": true
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 5,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "key": {
+          "value": 2,
+          "type": "int"
+        },
+        "val": {
+          "value": 20,
+          "type": "int"
+        }
+      },
+      "description": "Inserted [2, 20] at index 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": "[0]: "
+            },
+            {
+              "value": "[1]: 1:10, 6:60"
+            },
+            {
+              "value": "[2]: 2:20"
+            },
+            {
+              "value": "[3]: "
+            },
+            {
+              "value": "[4]: "
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": true
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "A Hash Table provides O(1) average-case time complexity for insertions, deletions, and lookups by using a hash function to map keys to array indices. Collisions (when two keys hash to the same index) are handled through chaining - storing multiple key-value pairs in a linked list at each bucket. Hash tables are fundamental to implementing dictionaries, caches, and database indexing."
+    }
+  ]
+}
