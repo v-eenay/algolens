@@ -50,6 +50,10 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        surface: 'hsl(var(--surface))',
+        'surface-elevated': 'hsl(var(--surface-elevated))',
+        success: 'hsl(var(--success))',
+        info: 'hsl(var(--info))',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -76,5 +80,3 @@ const config: Config = {
 };
 
 export default config;
-
-// Made with Bob

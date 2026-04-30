@@ -1,0 +1,532 @@
+{
+  "id": "binary-search-tree",
+  "name": "Binary Search Tree (BST)",
+  "category": "Data Structure",
+  "description": "A Binary Search Tree is a node-based binary tree data structure where each node has at most two children. For each node, all elements in the left subtree are less than the node, and all elements in the right subtree are greater than the node. This property makes BST efficient for searching, insertion, and deletion operations.",
+  "timeComplexity": {
+    "best": "O(log n)",
+    "average": "O(log n)",
+    "worst": "O(n)"
+  },
+  "spaceComplexity": "O(n)",
+  "code": {
+    "python": "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.left = None\n        self.right = None\n\nclass BST:\n    def __init__(self):\n        self.root = None\n    \n    def insert(self, value):\n        if not self.root:\n            self.root = Node(value)\n        else:\n            self._insert_recursive(self.root, value)\n    \n    def _insert_recursive(self, node, value):\n        if value < node.value:\n            if node.left is None:\n                node.left = Node(value)\n            else:\n                self._insert_recursive(node.left, value)\n        else:\n            if node.right is None:\n                node.right = Node(value)\n            else:\n                self._insert_recursive(node.right, value)\n    \n    def search(self, value):\n        return self._search_recursive(self.root, value)\n    \n    def _search_recursive(self, node, value):\n        if node is None:\n            return False\n        if node.value == value:\n            return True\n        elif value < node.value:\n            return self._search_recursive(node.left, value)\n        else:\n            return self._search_recursive(node.right, value)\n\nbst = BST()\nvalues = [50, 30, 70, 20, 40, 60, 80]\nfor val in values:\n    bst.insert(val)\n\nprint(bst.search(40))  # True\nprint(bst.search(25))  # False",
+    "cpp": "#include <iostream>\nusing namespace std;\n\nclass Node {\npublic:\n    int value;\n    Node* left;\n    Node* right;\n    Node(int val) : value(val), left(nullptr), right(nullptr) {}\n};\n\nclass BST {\nprivate:\n    Node* root;\n    \n    void insertRecursive(Node* node, int value) {\n        if (value < node->value) {\n            if (node->left == nullptr)\n                node->left = new Node(value);\n            else\n                insertRecursive(node->left, value);\n        } else {\n            if (node->right == nullptr)\n                node->right = new Node(value);\n            else\n                insertRecursive(node->right, value);\n        }\n    }\n    \n    bool searchRecursive(Node* node, int value) {\n        if (node == nullptr) return false;\n        if (node->value == value) return true;\n        else if (value < node->value)\n            return searchRecursive(node->left, value);\n        else\n            return searchRecursive(node->right, value);\n    }\n    \npublic:\n    BST() : root(nullptr) {}\n    \n    void insert(int value) {\n        if (root == nullptr)\n            root = new Node(value);\n        else\n            insertRecursive(root, value);\n    }\n    \n    bool search(int value) {\n        return searchRecursive(root, value);\n    }\n};\n\nint main() {\n    BST bst;\n    int values[] = {50, 30, 70, 20, 40, 60, 80};\n    for (int val : values) bst.insert(val);\n    cout << bst.search(40) << endl;\n    cout << bst.search(25) << endl;\n    return 0;\n}",
+    "javascript": "class Node {\n    constructor(value) {\n        this.value = value;\n        this.left = null;\n        this.right = null;\n    }\n}\n\nclass BST {\n    constructor() {\n        this.root = null;\n    }\n    \n    insert(value) {\n        if (!this.root) {\n            this.root = new Node(value);\n        } else {\n            this._insertRecursive(this.root, value);\n        }\n    }\n    \n    _insertRecursive(node, value) {\n        if (value < node.value) {\n            if (node.left === null) {\n                node.left = new Node(value);\n            } else {\n                this._insertRecursive(node.left, value);\n            }\n        } else {\n            if (node.right === null) {\n                node.right = new Node(value);\n            } else {\n                this._insertRecursive(node.right, value);\n            }\n        }\n    }\n    \n    search(value) {\n        return this._searchRecursive(this.root, value);\n    }\n    \n    _searchRecursive(node, value) {\n        if (node === null) return false;\n        if (node.value === value) return true;\n        else if (value < node.value)\n            return this._searchRecursive(node.left, value);\n        else\n            return this._searchRecursive(node.right, value);\n    }\n}\n\nconst bst = new BST();\nconst values = [50, 30, 70, 20, 40, 60, 80];\nvalues.forEach(val => bst.insert(val));\nconsole.log(bst.search(40));  // true\nconsole.log(bst.search(25));  // false"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 20,
+        "C++": 41,
+        "JavaScript": 27
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Initial empty BST",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Inserting 50 into BST",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [
+        50
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Inserted 50",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [
+            {
+              "id": "50",
+              "value": 50,
+              "x": 200,
+              "y": 50
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 3,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "array": [
+        50
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Inserting 30 into BST",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [
+            {
+              "id": "50",
+              "value": 50,
+              "x": 200,
+              "y": 50
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 4,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [
+        50,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Inserted 30",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [
+            {
+              "id": "50",
+              "value": 50,
+              "x": 200,
+              "y": 50
+            },
+            {
+              "id": "30",
+              "value": 30,
+              "x": 230,
+              "y": 80
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 5,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "array": [
+        50,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Inserting 70 into BST",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [
+            {
+              "id": "50",
+              "value": 50,
+              "x": 200,
+              "y": 50
+            },
+            {
+              "id": "30",
+              "value": 30,
+              "x": 230,
+              "y": 80
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 6,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [
+        50,
+        30,
+        70
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Inserted 70",
+      "visualization": {
+        "type": "tree",
+        "data": {
+          "nodes": [
+            {
+              "id": "50",
+              "value": 50,
+              "x": 200,
+              "y": 50
+            },
+            {
+              "id": "30",
+              "value": 30,
+              "x": 230,
+              "y": 80
+            },
+            {
+              "id": "70",
+              "value": 70,
+              "x": 260,
+              "y": 110
+            }
+          ],
+          "edges": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "Binary Search Tree (BST) is a fundamental data structure that maintains sorted data and allows for efficient search, insertion, and deletion operations. The key property is that for any node, all values in its left subtree are smaller, and all values in its right subtree are larger. This property enables O(log n) average-case time complexity for operations when the tree is balanced."
+    }
+  ]
+}

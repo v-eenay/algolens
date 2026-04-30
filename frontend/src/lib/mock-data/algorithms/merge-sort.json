@@ -1,0 +1,7563 @@
+{
+  "id": "merge-sort",
+  "name": "Merge Sort",
+  "category": "Sorting",
+  "description": "Merge Sort is a stable, divide-and-conquer sorting algorithm that divides the array into two halves, recursively sorts them, and then merges the sorted halves. It guarantees O(n log n) time complexity in all cases, making it more predictable than Quick Sort. The merge operation combines two sorted arrays into one sorted array.",
+  "timeComplexity": {
+    "best": "O(n log n)",
+    "average": "O(n log n)",
+    "worst": "O(n log n)"
+  },
+  "spaceComplexity": "O(n)",
+  "code": {
+    "python": "def merge_sort(arr):\n    \"\"\"Sort array using Merge Sort algorithm\"\"\"\n    if len(arr) <= 1:\n        return arr\n    \n    # Divide array into two halves\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    \n    # Merge sorted halves\n    return merge(left, right)\n\ndef merge(left, right):\n    \"\"\"Merge two sorted arrays\"\"\"\n    result = []\n    i = j = 0\n    \n    # Compare elements and merge\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    \n    # Add remaining elements\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result\n\n# Example usage\narr = [38, 27, 43, 3, 9, 82, 10]\nprint(\"Original:\", arr)\nsorted_arr = merge_sort(arr)\nprint(\"Sorted:\", sorted_arr)",
+    "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nvector<int> merge(vector<int>& left, vector<int>& right) {\n    vector<int> result;\n    int i = 0, j = 0;\n    \n    while (i < left.size() && j < right.size()) {\n        if (left[i] <= right[j]) {\n            result.push_back(left[i++]);\n        } else {\n            result.push_back(right[j++]);\n        }\n    }\n    \n    while (i < left.size()) result.push_back(left[i++]);\n    while (j < right.size()) result.push_back(right[j++]);\n    \n    return result;\n}\n\nvector<int> mergeSort(vector<int> arr) {\n    if (arr.size() <= 1) return arr;\n    \n    int mid = arr.size() / 2;\n    vector<int> left(arr.begin(), arr.begin() + mid);\n    vector<int> right(arr.begin() + mid, arr.end());\n    \n    left = mergeSort(left);\n    right = mergeSort(right);\n    \n    return merge(left, right);\n}\n\nint main() {\n    vector<int> arr = {38, 27, 43, 3, 9, 82, 10};\n    \n    cout << \"Original: \";\n    for (int num : arr) cout << num << \" \";\n    cout << endl;\n    \n    arr = mergeSort(arr);\n    \n    cout << \"Sorted: \";\n    for (int num : arr) cout << num << \" \";\n    cout << endl;\n    \n    return 0;\n}",
+    "javascript": "function mergeSort(arr) {\n    // Sort array using Merge Sort algorithm\n    if (arr.length <= 1) return arr;\n    \n    // Divide array into two halves\n    const mid = Math.floor(arr.length / 2);\n    const left = mergeSort(arr.slice(0, mid));\n    const right = mergeSort(arr.slice(mid));\n    \n    // Merge sorted halves\n    return merge(left, right);\n}\n\nfunction merge(left, right) {\n    // Merge two sorted arrays\n    const result = [];\n    let i = 0, j = 0;\n    \n    // Compare elements and merge\n    while (i < left.length && j < right.length) {\n        if (left[i] <= right[j]) {\n            result.push(left[i++]);\n        } else {\n            result.push(right[j++]);\n        }\n    }\n    \n    // Add remaining elements\n    return result.concat(left.slice(i)).concat(right.slice(j));\n}\n\n// Example usage\nconst arr = [38, 27, 43, 3, 9, 82, 10];\nconsole.log('Original:', arr);\nconst sortedArr = mergeSort(arr);\nconsole.log('Sorted:', sortedArr);"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 44,
+        "C++": 50,
+        "JavaScript": 47
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Initial array",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "r": {
+          "value": 6,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [0..6]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 6,
+        "C++": 43,
+        "JavaScript": 6
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        3
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "m": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Calculated mid = 3",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": true
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": true
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 3,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "r": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [0..3]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 4,
+      "activeLine": {
+        "Python": 6,
+        "C++": 43,
+        "JavaScript": 6
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        1
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "m": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Calculated mid = 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": true
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": true
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 5,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "r": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [0..1]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 6,
+      "activeLine": {
+        "Python": 6,
+        "C++": 43,
+        "JavaScript": 6
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        0
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "m": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Calculated mid = 0",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": true
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": true
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 7,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "r": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [0..0]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 8,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 1,
+          "type": "int"
+        },
+        "r": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [1..1]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 9,
+      "activeLine": {
+        "Python": 13,
+        "C++": 8,
+        "JavaScript": 15
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        0,
+        1
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "m": {
+          "value": 0,
+          "type": "int"
+        },
+        "r": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Merging subarrays [0..0] and [1..1]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 10,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        38,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        0,
+        1
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=38 and R[0]=27",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 38,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 11,
+      "activeLine": {
+        "Python": 29,
+        "C++": 24,
+        "JavaScript": 31
+      },
+      "array": [
+        27,
+        27,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        0
+      ],
+      "sorted": [],
+      "variables": {
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Placed 27 into array at index 0",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 12,
+      "activeLine": {
+        "Python": 34,
+        "C++": 29,
+        "JavaScript": 36
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        1
+      ],
+      "sorted": [],
+      "variables": {},
+      "description": "Copying remaining L element 38",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": true
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 13,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 2,
+          "type": "int"
+        },
+        "r": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [2..3]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 14,
+      "activeLine": {
+        "Python": 6,
+        "C++": 43,
+        "JavaScript": 6
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        2
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "m": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Calculated mid = 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": true
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": true
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 15,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 2,
+          "type": "int"
+        },
+        "r": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [2..2]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 16,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 3,
+          "type": "int"
+        },
+        "r": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [3..3]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 17,
+      "activeLine": {
+        "Python": 13,
+        "C++": 8,
+        "JavaScript": 15
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        2,
+        3
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 2,
+          "type": "int"
+        },
+        "m": {
+          "value": 2,
+          "type": "int"
+        },
+        "r": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Merging subarrays [2..2] and [3..3]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 18,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        27,
+        38,
+        43,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        2,
+        3
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=43 and R[0]=3",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 43,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 19,
+      "activeLine": {
+        "Python": 29,
+        "C++": 24,
+        "JavaScript": 31
+      },
+      "array": [
+        27,
+        38,
+        3,
+        3,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        2
+      ],
+      "sorted": [],
+      "variables": {
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Placed 3 into array at index 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 3,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 20,
+      "activeLine": {
+        "Python": 34,
+        "C++": 29,
+        "JavaScript": 36
+      },
+      "array": [
+        27,
+        38,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        3
+      ],
+      "sorted": [],
+      "variables": {},
+      "description": "Copying remaining L element 43",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": true
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 21,
+      "activeLine": {
+        "Python": 13,
+        "C++": 8,
+        "JavaScript": 15
+      },
+      "array": [
+        27,
+        38,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        0,
+        3
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "m": {
+          "value": 1,
+          "type": "int"
+        },
+        "r": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Merging subarrays [0..1] and [2..3]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 22,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        27,
+        38,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        0,
+        2
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=27 and R[0]=3",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 27,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 23,
+      "activeLine": {
+        "Python": 29,
+        "C++": 24,
+        "JavaScript": 31
+      },
+      "array": [
+        3,
+        38,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        0
+      ],
+      "sorted": [],
+      "variables": {
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Placed 3 into array at index 0",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 24,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        38,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        0,
+        3
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=27 and R[1]=43",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 38,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 25,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        27,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        1
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Placed 27 into array at index 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 26,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        27,
+        3,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        1,
+        3
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[1]=38 and R[1]=43",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 3,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 27,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        2
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 2,
+          "type": "int"
+        },
+        "k": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Placed 38 into array at index 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 28,
+      "activeLine": {
+        "Python": 39,
+        "C++": 34,
+        "JavaScript": 41
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        3
+      ],
+      "sorted": [],
+      "variables": {},
+      "description": "Copying remaining R element 43",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": true
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 29,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 4,
+          "type": "int"
+        },
+        "r": {
+          "value": 6,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [4..6]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 30,
+      "activeLine": {
+        "Python": 6,
+        "C++": 43,
+        "JavaScript": 6
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        5
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "m": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Calculated mid = 5",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": true
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": true
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 31,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 4,
+          "type": "int"
+        },
+        "r": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [4..5]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 32,
+      "activeLine": {
+        "Python": 6,
+        "C++": 43,
+        "JavaScript": 6
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        4
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "m": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Calculated mid = 4",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": true
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": true
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 33,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 4,
+          "type": "int"
+        },
+        "r": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [4..4]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 34,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 5,
+          "type": "int"
+        },
+        "r": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [5..5]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 35,
+      "activeLine": {
+        "Python": 13,
+        "C++": 8,
+        "JavaScript": 15
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        4,
+        5
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 4,
+          "type": "int"
+        },
+        "m": {
+          "value": 4,
+          "type": "int"
+        },
+        "r": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Merging subarrays [4..4] and [5..5]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 36,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        4,
+        5
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=9 and R[0]=82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 37,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        4
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Placed 9 into array at index 4",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 38,
+      "activeLine": {
+        "Python": 39,
+        "C++": 34,
+        "JavaScript": 41
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        5
+      ],
+      "sorted": [],
+      "variables": {},
+      "description": "Copying remaining R element 82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": true
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 39,
+      "activeLine": {
+        "Python": 3,
+        "C++": 40,
+        "JavaScript": 3
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 6,
+          "type": "int"
+        },
+        "r": {
+          "value": 6,
+          "type": "int"
+        }
+      },
+      "description": "mergeSort called for [6..6]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": true
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": true
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 40,
+      "activeLine": {
+        "Python": 13,
+        "C++": 8,
+        "JavaScript": 15
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        4,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 4,
+          "type": "int"
+        },
+        "m": {
+          "value": 5,
+          "type": "int"
+        },
+        "r": {
+          "value": 6,
+          "type": "int"
+        }
+      },
+      "description": "Merging subarrays [4..5] and [6..6]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 41,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        4,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=9 and R[0]=10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 42,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        4
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Placed 9 into array at index 4",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 43,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        82,
+        10
+      ],
+      "comparing": [
+        5,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[1]=82 and R[0]=10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 82,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 44,
+      "activeLine": {
+        "Python": 29,
+        "C++": 24,
+        "JavaScript": 31
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        10,
+        10
+      ],
+      "comparing": [],
+      "swapping": [
+        5
+      ],
+      "sorted": [],
+      "variables": {
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Placed 10 into array at index 5",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 10,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 45,
+      "activeLine": {
+        "Python": 34,
+        "C++": 29,
+        "JavaScript": 36
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        6
+      ],
+      "sorted": [],
+      "variables": {},
+      "description": "Copying remaining L element 82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": true
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 46,
+      "activeLine": {
+        "Python": 13,
+        "C++": 8,
+        "JavaScript": 15
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [
+        0,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "l": {
+          "value": 0,
+          "type": "int"
+        },
+        "m": {
+          "value": 3,
+          "type": "int"
+        },
+        "r": {
+          "value": 6,
+          "type": "int"
+        }
+      },
+      "description": "Merging subarrays [0..3] and [4..6]",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 47,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [
+        0,
+        4
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 0,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[0]=3 and R[0]=9",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 48,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        0
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "Placed 3 into array at index 0",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 49,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        27,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [
+        1,
+        4
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "j": {
+          "value": 0,
+          "type": "int"
+        },
+        "k": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[1]=27 and R[0]=9",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 27,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 50,
+      "activeLine": {
+        "Python": 29,
+        "C++": 24,
+        "JavaScript": 31
+      },
+      "array": [
+        3,
+        9,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        1
+      ],
+      "sorted": [],
+      "variables": {
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Placed 9 into array at index 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 51,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        9,
+        38,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [
+        1,
+        5
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "j": {
+          "value": 1,
+          "type": "int"
+        },
+        "k": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[1]=27 and R[1]=10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 38,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 52,
+      "activeLine": {
+        "Python": 29,
+        "C++": 24,
+        "JavaScript": 31
+      },
+      "array": [
+        3,
+        9,
+        10,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        2
+      ],
+      "sorted": [],
+      "variables": {
+        "j": {
+          "value": 2,
+          "type": "int"
+        },
+        "k": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Placed 10 into array at index 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 53,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        9,
+        10,
+        43,
+        9,
+        10,
+        82
+      ],
+      "comparing": [
+        1,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 1,
+          "type": "int"
+        },
+        "j": {
+          "value": 2,
+          "type": "int"
+        },
+        "k": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[1]=27 and R[2]=82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 43,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 54,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        9,
+        10,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        3
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 2,
+          "type": "int"
+        },
+        "k": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Placed 27 into array at index 3",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 55,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        9,
+        10,
+        82
+      ],
+      "comparing": [
+        2,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 2,
+          "type": "int"
+        },
+        "j": {
+          "value": 2,
+          "type": "int"
+        },
+        "k": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[2]=38 and R[2]=82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 9,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 56,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        38,
+        10,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        4
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 3,
+          "type": "int"
+        },
+        "k": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Placed 38 into array at index 4",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 38,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 57,
+      "activeLine": {
+        "Python": 24,
+        "C++": 19,
+        "JavaScript": 26
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        38,
+        10,
+        82
+      ],
+      "comparing": [
+        3,
+        6
+      ],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 3,
+          "type": "int"
+        },
+        "j": {
+          "value": 2,
+          "type": "int"
+        },
+        "k": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Comparing L[3]=43 and R[2]=82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 38,
+              "index": 4
+            },
+            {
+              "value": 10,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 58,
+      "activeLine": {
+        "Python": 26,
+        "C++": 21,
+        "JavaScript": 28
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        38,
+        43,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        5
+      ],
+      "sorted": [],
+      "variables": {
+        "i": {
+          "value": 4,
+          "type": "int"
+        },
+        "k": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Placed 43 into array at index 5",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 38,
+              "index": 4
+            },
+            {
+              "value": 43,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 59,
+      "activeLine": {
+        "Python": 39,
+        "C++": 34,
+        "JavaScript": 41
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        38,
+        43,
+        82
+      ],
+      "comparing": [],
+      "swapping": [
+        6
+      ],
+      "sorted": [],
+      "variables": {},
+      "description": "Copying remaining R element 82",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 38,
+              "index": 4
+            },
+            {
+              "value": 43,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": false
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": true
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 60,
+      "activeLine": {
+        "Python": 46,
+        "C++": 54,
+        "JavaScript": 49
+      },
+      "array": [
+        3,
+        9,
+        10,
+        27,
+        38,
+        43,
+        82
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Array is fully sorted",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 3,
+              "index": 0
+            },
+            {
+              "value": 9,
+              "index": 1
+            },
+            {
+              "value": 10,
+              "index": 2
+            },
+            {
+              "value": 27,
+              "index": 3
+            },
+            {
+              "value": 38,
+              "index": 4
+            },
+            {
+              "value": 43,
+              "index": 5
+            },
+            {
+              "value": 82,
+              "index": 6
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Sort",
+            "active": true
+          },
+          {
+            "id": "divide",
+            "label": "Divide Array",
+            "active": false
+          },
+          {
+            "id": "conquer",
+            "label": "Recursive Sort",
+            "active": false
+          },
+          {
+            "id": "merge",
+            "label": "Merge Halves",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Sort",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "divide",
+            "active": false
+          },
+          {
+            "from": "divide",
+            "to": "conquer",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "merge",
+            "active": false
+          },
+          {
+            "from": "merge",
+            "to": "end",
+            "active": false
+          },
+          {
+            "from": "conquer",
+            "to": "divide",
+            "active": false
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "Merge Sort is a stable, divide-and-conquer algorithm that guarantees O(n log n) time complexity in all cases. It recursively divides the array into halves until single elements remain, then merges them back in sorted order. The merge operation is the key - it combines two sorted arrays by comparing elements and building a new sorted array. While it requires O(n) extra space, its predictable performance makes it ideal for sorting linked lists and external sorting."
+    }
+  ]
+}

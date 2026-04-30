@@ -1,0 +1,790 @@
+{
+  "id": "stack",
+  "name": "Stack (LIFO)",
+  "category": "Data Structure",
+  "description": "A Stack is a linear data structure that follows the Last-In-First-Out (LIFO) principle. Elements are added and removed from the same end, called the 'top' of the stack. Common operations include push (add element), pop (remove element), and peek (view top element without removing).",
+  "timeComplexity": {
+    "best": "O(1)",
+    "average": "O(1)",
+    "worst": "O(1)"
+  },
+  "spaceComplexity": "O(n)",
+  "code": {
+    "python": "class Stack:\n    def __init__(self):\n        self.items = []\n    \n    def push(self, item):\n        \"\"\"Add an item to the top of the stack\"\"\"\n        self.items.append(item)\n    \n    def pop(self):\n        \"\"\"Remove and return the top item\"\"\"\n        if not self.is_empty():\n            return self.items.pop()\n        return None\n    \n    def peek(self):\n        \"\"\"Return the top item without removing it\"\"\"\n        if not self.is_empty():\n            return self.items[-1]\n        return None\n    \n    def is_empty(self):\n        \"\"\"Check if stack is empty\"\"\"\n        return len(self.items) == 0\n    \n    def size(self):\n        \"\"\"Return the number of items in the stack\"\"\"\n        return len(self.items)\n    \n    def display(self):\n        \"\"\"Display all items in the stack\"\"\"\n        return self.items\n\n# Example usage\nstack = Stack()\nstack.push(10)\nstack.push(20)\nstack.push(30)\nprint(stack.display())  # [10, 20, 30]\nprint(stack.peek())     # 30\nprint(stack.pop())      # 30\nprint(stack.display())  # [10, 20]",
+    "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nclass Stack {\nprivate:\n    vector<int> items;\n    \npublic:\n    void push(int item) {\n        items.push_back(item);\n    }\n    \n    int pop() {\n        if (!isEmpty()) {\n            int top = items.back();\n            items.pop_back();\n            return top;\n        }\n        return -1;\n    }\n    \n    int peek() {\n        if (!isEmpty()) {\n            return items.back();\n        }\n        return -1;\n    }\n    \n    bool isEmpty() {\n        return items.empty();\n    }\n    \n    int size() {\n        return items.size();\n    }\n    \n    void display() {\n        for (int item : items) {\n            cout << item << \" \";\n        }\n        cout << endl;\n    }\n};\n\nint main() {\n    Stack stack;\n    stack.push(10);\n    stack.push(20);\n    stack.push(30);\n    stack.display();  // 10 20 30\n    cout << stack.peek() << endl;  // 30\n    cout << stack.pop() << endl;   // 30\n    stack.display();  // 10 20\n    return 0;\n}",
+    "javascript": "class Stack {\n    constructor() {\n        this.items = [];\n    }\n    \n    push(item) {\n        // Add an item to the top of the stack\n        this.items.push(item);\n    }\n    \n    pop() {\n        // Remove and return the top item\n        if (!this.isEmpty()) {\n            return this.items.pop();\n        }\n        return null;\n    }\n    \n    peek() {\n        // Return the top item without removing it\n        if (!this.isEmpty()) {\n            return this.items[this.items.length - 1];\n        }\n        return null;\n    }\n    \n    isEmpty() {\n        // Check if stack is empty\n        return this.items.length === 0;\n    }\n    \n    size() {\n        // Return the number of items in the stack\n        return this.items.length;\n    }\n    \n    display() {\n        // Display all items in the stack\n        return this.items;\n    }\n}\n\n// Example usage\nconst stack = new Stack();\nstack.push(10);\nstack.push(20);\nstack.push(30);\nconsole.log(stack.display());  // [10, 20, 30]\nconsole.log(stack.peek());     // 30\nconsole.log(stack.pop());      // 30\nconsole.log(stack.display());  // [10, 20]"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 20,
+        "C++": 41,
+        "JavaScript": 27
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Initial empty stack",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushing 10 to stack",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushed 10",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 3,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [
+        10
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushing 20 to stack",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 4,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10,
+        20
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushed 20",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 5,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [
+        10,
+        20
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushing 30 to stack",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 6,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10,
+        20,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushed 30",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 7,
+      "activeLine": {
+        "Python": 9,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [
+        10,
+        20,
+        30
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Popping from stack",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 30
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 8,
+      "activeLine": {
+        "Python": 12,
+        "C++": 24,
+        "JavaScript": 15
+      },
+      "array": [
+        10,
+        20
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Popped 30",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 9,
+      "activeLine": {
+        "Python": 5,
+        "C++": 13,
+        "JavaScript": 6
+      },
+      "array": [
+        10,
+        20
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushing 40 to stack",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 10,
+      "activeLine": {
+        "Python": 6,
+        "C++": 15,
+        "JavaScript": 7
+      },
+      "array": [
+        10,
+        20,
+        40
+      ],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Pushed 40",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 10
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 40
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "A Stack is a fundamental LIFO (Last-In-First-Out) data structure. Think of it like a stack of plates - you can only add or remove plates from the top. All operations (push, pop, peek) have O(1) time complexity, making stacks extremely efficient. Stacks are used in function call management, expression evaluation, undo mechanisms, and backtracking algorithms."
+    }
+  ]
+}

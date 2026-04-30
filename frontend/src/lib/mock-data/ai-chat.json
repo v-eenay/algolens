@@ -1,0 +1,29 @@
+{
+  "initialMessages": [
+    {
+      "id": "msg-1",
+      "role": "assistant",
+      "content": "Welcome to AlgoLens. I'm tracking your Quick Sort partition execution. Ask me anything about the current step, variable states, or why a specific swap occurs."
+    },
+    {
+      "id": "msg-2",
+      "role": "user",
+      "content": "Why is the pivot always chosen from the last element?"
+    },
+    {
+      "id": "msg-3",
+      "role": "assistant",
+      "content": "Selecting the last element as the pivot is the Lomuto partition scheme. It simplifies the loop logic since the pivot stays at a known position (arr[high]) while the scan pointer j moves left-to-right. However, this can degrade to O(n²) on already-sorted input — that's why randomized pivot selection is preferred in production."
+    }
+  ],
+  "mockResponses": [
+    "The current comparison checks whether arr[j] is less than or equal to the pivot. If true, we increment i and swap arr[i] with arr[j] to move the smaller element to the left partition.",
+    "At this point, i marks the boundary between elements smaller than the pivot and those larger. Everything at index <= i is in the correct partition side.",
+    "The final swap places the pivot at index i+1, which becomes its sorted position. This guarantees all left elements are ≤ pivot and all right elements are > pivot.",
+    "Notice how the scan pointer j only moves forward. This is what makes the Lomuto partition scheme O(n) for each partition call — it processes each element exactly once.",
+    "The swap you're seeing moves a small element from the right side of the boundary to the left side. Think of i as a 'write head' that tracks where the next small element should go.",
+    "Good question! The pivot value 10 is smaller than most elements in this array, so it ends up near the beginning. This creates an unbalanced partition — the left sub-array has only 2 elements while the right has 4.",
+    "Comparing with the Hoare partition scheme: Hoare uses two pointers moving toward each other, which typically results in fewer swaps. But Lomuto is easier to understand and implement correctly.",
+    "The variable i starts at low - 1 (which is -1 here) because no elements have been confirmed as smaller than the pivot yet. It only advances when we find a qualifying element."
+  ]
+}

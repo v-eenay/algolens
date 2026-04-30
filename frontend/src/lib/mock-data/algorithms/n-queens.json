@@ -1,0 +1,208 @@
+{
+  "id": "n-queens",
+  "name": "N-Queens (Backtracking)",
+  "category": "Backtracking",
+  "description": "The N-Queens problem places N chess queens on an N×N chessboard so that no two queens threaten each other. This classic backtracking problem demonstrates constraint satisfaction - queens cannot share the same row, column, or diagonal. The algorithm tries placing queens one by one, backtracking when a placement violates constraints, exploring all possible valid configurations.",
+  "timeComplexity": {
+    "best": "O(N!)",
+    "average": "O(N!)",
+    "worst": "O(N!)"
+  },
+  "spaceComplexity": "O(N²)",
+  "code": {
+    "python": "def solve_n_queens(n):\n    \"\"\"Solve N-Queens problem using backtracking\"\"\"\n    board = [[0] * n for _ in range(n)]\n    solutions = []\n    \n    def is_safe(row, col):\n        # Check column\n        for i in range(row):\n            if board[i][col] == 1:\n                return False\n        \n        # Check upper left diagonal\n        i, j = row - 1, col - 1\n        while i >= 0 and j >= 0:\n            if board[i][j] == 1:\n                return False\n            i -= 1\n            j -= 1\n        \n        # Check upper right diagonal\n        i, j = row - 1, col + 1\n        while i >= 0 and j < n:\n            if board[i][j] == 1:\n                return False\n            i -= 1\n            j += 1\n        \n        return True\n    \n    def solve(row):\n        if row == n:\n            solutions.append([row[:] for row in board])\n            return\n        \n        for col in range(n):\n            if is_safe(row, col):\n                board[row][col] = 1\n                solve(row + 1)\n                board[row][col] = 0  # Backtrack\n    \n    solve(0)\n    return solutions\n\n# Example: Solve 4-Queens\nsolutions = solve_n_queens(4)\nprint(f\"Found {len(solutions)} solutions for 4-Queens\")\nfor i, solution in enumerate(solutions):\n    print(f\"\\nSolution {i+1}:\")\n    for row in solution:\n        print(row)",
+    "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nclass NQueens {\nprivate:\n    int n;\n    vector<vector<int>> board;\n    vector<vector<vector<int>>> solutions;\n    \n    bool isSafe(int row, int col) {\n        // Check column\n        for (int i = 0; i < row; i++) {\n            if (board[i][col] == 1) return false;\n        }\n        \n        // Check upper left diagonal\n        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {\n            if (board[i][j] == 1) return false;\n        }\n        \n        // Check upper right diagonal\n        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {\n            if (board[i][j] == 1) return false;\n        }\n        \n        return true;\n    }\n    \n    void solve(int row) {\n        if (row == n) {\n            solutions.push_back(board);\n            return;\n        }\n        \n        for (int col = 0; col < n; col++) {\n            if (isSafe(row, col)) {\n                board[row][col] = 1;\n                solve(row + 1);\n                board[row][col] = 0;\n            }\n        }\n    }\n    \npublic:\n    NQueens(int size) : n(size) {\n        board.resize(n, vector<int>(n, 0));\n    }\n    \n    vector<vector<vector<int>>> solveNQueens() {\n        solve(0);\n        return solutions;\n    }\n};\n\nint main() {\n    NQueens nq(4);\n    auto solutions = nq.solveNQueens();\n    \n    cout << \"Found \" << solutions.size() << \" solutions for 4-Queens\" << endl;\n    \n    for (int i = 0; i < solutions.size(); i++) {\n        cout << \"\\nSolution \" << i + 1 << \":\" << endl;\n        for (auto& row : solutions[i]) {\n            for (int val : row) {\n                cout << val << \" \";\n            }\n            cout << endl;\n        }\n    }\n    \n    return 0;\n}",
+    "javascript": "function solveNQueens(n) {\n    // Solve N-Queens problem using backtracking\n    const board = Array(n).fill().map(() => Array(n).fill(0));\n    const solutions = [];\n    \n    function isSafe(row, col) {\n        // Check column\n        for (let i = 0; i < row; i++) {\n            if (board[i][col] === 1) return false;\n        }\n        \n        // Check upper left diagonal\n        for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {\n            if (board[i][j] === 1) return false;\n        }\n        \n        // Check upper right diagonal\n        for (let i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {\n            if (board[i][j] === 1) return false;\n        }\n        \n        return true;\n    }\n    \n    function solve(row) {\n        if (row === n) {\n            solutions.push(board.map(r => [...r]));\n            return;\n        }\n        \n        for (let col = 0; col < n; col++) {\n            if (isSafe(row, col)) {\n                board[row][col] = 1;\n                solve(row + 1);\n                board[row][col] = 0;  // Backtrack\n            }\n        }\n    }\n    \n    solve(0);\n    return solutions;\n}\n\n// Example: Solve 4-Queens\nconst solutions = solveNQueens(4);\nconsole.log(`Found ${solutions.length} solutions for 4-Queens`);\nsolutions.forEach((solution, i) => {\n    console.log(`\\nSolution ${i + 1}:`);\n    solution.forEach(row => console.log(row.join(' ')));\n});"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 5,
+        "C++": 15,
+        "JavaScript": 6
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Start N-Queens (N=4)",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": true
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 10,
+        "C++": 20,
+        "JavaScript": 11
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Placing queen at (0, 1)",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": true
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": true
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 15,
+        "C++": 25,
+        "JavaScript": 16
+      },
+      "array": [],
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Found solution",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Start Operation",
+            "active": false
+          },
+          {
+            "id": "execute",
+            "label": "Execute Logic",
+            "active": false
+          },
+          {
+            "id": "update",
+            "label": "Update State",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "End Operation",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "execute",
+            "active": false
+          },
+          {
+            "from": "execute",
+            "to": "update",
+            "active": false
+          },
+          {
+            "from": "update",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "The N-Queens problem is a classic example of backtracking - a systematic way to explore all possible solutions by trying options and undoing (backtracking) when constraints are violated. The algorithm places queens row by row, checking if each placement is safe (no conflicts with previously placed queens). When it reaches a dead end, it backtracks to try different positions. This exhaustive search with pruning is essential for constraint satisfaction problems, puzzle solving, and combinatorial optimization."
+    }
+  ]
+}

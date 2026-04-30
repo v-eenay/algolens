@@ -1,0 +1,1608 @@
+{
+  "id": "fibonacci-dp",
+  "name": "Fibonacci (Dynamic Programming)",
+  "category": "Dynamic Programming",
+  "description": "Dynamic Programming optimizes recursive algorithms by storing previously computed results (memoization). The Fibonacci sequence is a classic example where DP reduces time complexity from exponential O(2^n) to linear O(n). This approach demonstrates how DP eliminates redundant calculations by building solutions bottom-up or storing results top-down.",
+  "timeComplexity": {
+    "best": "O(n)",
+    "average": "O(n)",
+    "worst": "O(n)"
+  },
+  "spaceComplexity": "O(n)",
+  "code": {
+    "python": "def fibonacci_dp(n):\n    \"\"\"Calculate nth Fibonacci number using Dynamic Programming\"\"\"\n    if n <= 1:\n        return n\n    \n    # Create memoization table\n    dp = [0] * (n + 1)\n    dp[0] = 0\n    dp[1] = 1\n    \n    # Build solution bottom-up\n    for i in range(2, n + 1):\n        dp[i] = dp[i-1] + dp[i-2]\n    \n    return dp[n]\n\ndef fibonacci_memo(n, memo={}):\n    \"\"\"Calculate using memoization (top-down)\"\"\"\n    if n in memo:\n        return memo[n]\n    if n <= 1:\n        return n\n    \n    memo[n] = fibonacci_memo(n-1, memo) + fibonacci_memo(n-2, memo)\n    return memo[n]\n\n# Example usage\nn = 10\nprint(f\"Fibonacci({n}) = {fibonacci_dp(n)}\")\nprint(f\"Sequence: {[fibonacci_dp(i) for i in range(n+1)]}\")",
+    "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint fibonacciDP(int n) {\n    if (n <= 1) return n;\n    \n    vector<int> dp(n + 1);\n    dp[0] = 0;\n    dp[1] = 1;\n    \n    for (int i = 2; i <= n; i++) {\n        dp[i] = dp[i-1] + dp[i-2];\n    }\n    \n    return dp[n];\n}\n\nint fibonacciMemo(int n, vector<int>& memo) {\n    if (n <= 1) return n;\n    if (memo[n] != -1) return memo[n];\n    \n    memo[n] = fibonacciMemo(n-1, memo) + fibonacciMemo(n-2, memo);\n    return memo[n];\n}\n\nint main() {\n    int n = 10;\n    \n    cout << \"Fibonacci(\" << n << \") = \" << fibonacciDP(n) << endl;\n    \n    cout << \"Sequence: \";\n    for (int i = 0; i <= n; i++) {\n        cout << fibonacciDP(i) << \" \";\n    }\n    cout << endl;\n    \n    return 0;\n}",
+    "javascript": "function fibonacciDP(n) {\n    // Calculate nth Fibonacci number using Dynamic Programming\n    if (n <= 1) return n;\n    \n    // Create memoization table\n    const dp = new Array(n + 1);\n    dp[0] = 0;\n    dp[1] = 1;\n    \n    // Build solution bottom-up\n    for (let i = 2; i <= n; i++) {\n        dp[i] = dp[i-1] + dp[i-2];\n    }\n    \n    return dp[n];\n}\n\nfunction fibonacciMemo(n, memo = {}) {\n    // Calculate using memoization (top-down)\n    if (n in memo) return memo[n];\n    if (n <= 1) return n;\n    \n    memo[n] = fibonacciMemo(n-1, memo) + fibonacciMemo(n-2, memo);\n    return memo[n];\n}\n\n// Example usage\nconst n = 10;\nconsole.log(`Fibonacci(${n}) = ${fibonacciDP(n)}`);\nconsole.log('Sequence:', Array.from({length: n+1}, (_, i) => fibonacciDP(i)));"
+  },
+  "executionFrames": [
+    {
+      "frameIndex": 0,
+      "activeLine": {
+        "Python": 14,
+        "C++": 19,
+        "JavaScript": 15
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {},
+      "description": "Starting Fibonacci DP",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 1,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "fib(5) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 2,
+      "activeLine": {
+        "Python": 10,
+        "C++": 13,
+        "JavaScript": 10
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Calculating fib(5)",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": true
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 3,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "fib(4) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 4,
+      "activeLine": {
+        "Python": 10,
+        "C++": 13,
+        "JavaScript": 10
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 4,
+          "type": "int"
+        }
+      },
+      "description": "Calculating fib(4)",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": true
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 5,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "fib(3) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 6,
+      "activeLine": {
+        "Python": 10,
+        "C++": 13,
+        "JavaScript": 10
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Calculating fib(3)",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": true
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 7,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "fib(2) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 8,
+      "activeLine": {
+        "Python": 10,
+        "C++": 13,
+        "JavaScript": 10
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Calculating fib(2)",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": true
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": true
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 9,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "fib(1) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 10,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 0,
+          "type": "int"
+        }
+      },
+      "description": "fib(0) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": []
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 11,
+      "activeLine": {
+        "Python": 11,
+        "C++": 14,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 2,
+          "type": "int"
+        },
+        "res": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "Stored fib(2) = 1",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 12,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 1,
+          "type": "int"
+        }
+      },
+      "description": "fib(1) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 13,
+      "activeLine": {
+        "Python": 11,
+        "C++": 14,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 3,
+          "type": "int"
+        },
+        "res": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Stored fib(3) = 2",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 14,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "fib(2) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 15,
+      "activeLine": {
+        "Python": 6,
+        "C++": 9,
+        "JavaScript": 6
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 2,
+          "type": "int"
+        }
+      },
+      "description": "Found fib(2) in memo",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": true
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": true
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 16,
+      "activeLine": {
+        "Python": 11,
+        "C++": 14,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 4,
+          "type": "int"
+        },
+        "res": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Stored fib(4) = 3",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            },
+            {
+              "value": 3
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 17,
+      "activeLine": {
+        "Python": 3,
+        "C++": 6,
+        "JavaScript": 3
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "fib(3) called",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            },
+            {
+              "value": 3
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": true
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 18,
+      "activeLine": {
+        "Python": 6,
+        "C++": 9,
+        "JavaScript": 6
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 3,
+          "type": "int"
+        }
+      },
+      "description": "Found fib(3) in memo",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            },
+            {
+              "value": 3
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": true
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": false
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": true
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": false
+          }
+        ]
+      }
+    },
+    {
+      "frameIndex": 19,
+      "activeLine": {
+        "Python": 11,
+        "C++": 14,
+        "JavaScript": 11
+      },
+      "comparing": [],
+      "swapping": [],
+      "sorted": [],
+      "variables": {
+        "n": {
+          "value": 5,
+          "type": "int"
+        },
+        "res": {
+          "value": 5,
+          "type": "int"
+        }
+      },
+      "description": "Stored fib(5) = 5",
+      "visualization": {
+        "type": "array",
+        "data": {
+          "data": [
+            {
+              "value": 1
+            },
+            {
+              "value": 2
+            },
+            {
+              "value": 3
+            },
+            {
+              "value": 5
+            }
+          ]
+        }
+      },
+      "flowchart": {
+        "nodes": [
+          {
+            "id": "start",
+            "label": "Call fib(n)",
+            "active": false
+          },
+          {
+            "id": "base",
+            "label": "Check Base Case",
+            "active": false
+          },
+          {
+            "id": "memo",
+            "label": "Check Memo",
+            "active": false
+          },
+          {
+            "id": "calc",
+            "label": "Calculate & Store",
+            "active": false
+          },
+          {
+            "id": "end",
+            "label": "Return Result",
+            "active": true
+          }
+        ],
+        "edges": [
+          {
+            "from": "start",
+            "to": "base",
+            "active": false
+          },
+          {
+            "from": "base",
+            "to": "memo",
+            "active": false
+          },
+          {
+            "from": "memo",
+            "to": "calc",
+            "active": false
+          },
+          {
+            "from": "calc",
+            "to": "end",
+            "active": true
+          }
+        ]
+      }
+    }
+  ],
+  "aiExplanation": [
+    {
+      "role": "assistant",
+      "content": "Dynamic Programming (DP) is an optimization technique that solves complex problems by breaking them into simpler subproblems and storing their solutions. The Fibonacci sequence perfectly demonstrates DP's power - naive recursion has O(2^n) time complexity due to redundant calculations, but DP reduces it to O(n) by storing results in a table. This bottom-up approach (tabulation) fills the table iteratively, ensuring each subproblem is solved only once. DP is essential for optimization problems in algorithms, AI, and operations research."
+    }
+  ]
+}
