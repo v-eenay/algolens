@@ -37,7 +37,7 @@ export interface ExecutionFrame {
   // Support for different visualization types
   visualization?: {
     type: 'array' | 'tree' | 'graph' | 'table' | 'linkedlist';
-    data?: any;
+    data?: Record<string, unknown>;
   };
 }
 
@@ -61,20 +61,22 @@ export interface AIChatData {
 // Component prop interfaces
 // ---------------------------------------------------------------------------
 
+/** WebSocket Connection status. */
+export type ConnectionStatus =
+  | 'connecting'
+  | 'connected'
+  | 'disconnected'
+  | 'reconnecting'
+  | 'error';
+
 export interface MockCodeEditorPanelProps {
-  language: EditorLanguage;
-  lines: string[];
   filename: string;
   activeLine: number;
-  onLanguageChange: (lang: EditorLanguage) => void;
   isLoading?: boolean;
 }
 
 export interface VisualizationPanelProps {
   activeTab: VisualizerTab;
-  currentFrame: ExecutionFrame | null;
-  totalFrames: number;
-  isPlaying: boolean;
   onTabChange: (tab: VisualizerTab) => void;
   isLoading?: boolean;
 }

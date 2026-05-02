@@ -102,6 +102,8 @@ NEXT_PUBLIC_ENV=development
 - **Real-time Visualization**: D3.js visualizations of execution state
 - **AI Explanations**: Context-aware explanations from AI service
 - **WebSocket**: Real-time updates during code execution
+- **Algorithm Persistence**: Save custom algorithms to personal cloud library
+- **Real-time Collaboration**: Share workspaces with other users (view/edit)
 - **Responsive**: Mobile-friendly design
 - **Accessible**: WCAG 2.1 AA compliant
 

@@ -224,6 +224,8 @@ progyan-algolens/
 │   │   │   │   ├── user.py
 │   │   │   │   ├── execution_session.py
 │   │   │   │   ├── algorithm.py
+│   │   │   │   ├── user_algorithm.py
+│   │   │   │   ├── algorithm_share.py
 │   │   │   │   ├── explanation.py
 │   │   │   │   └── analytics.py
 │   │   │   └── repositories/
@@ -231,6 +233,7 @@ progyan-algolens/
 │   │   │       ├── user_repository.py
 │   │   │       ├── execution_repository.py
 │   │   │       ├── algorithm_repository.py
+│   │   │       ├── user_algorithm_repository.py
 │   │   │       └── analytics_repository.py
 │   │   ├── services/
 │   │   │   ├── __init__.py
@@ -570,12 +573,14 @@ User Code Input → Backend API → Execution Engine (Docker) → Step-by-step e
 - **D3.js + React Flow**: Data structure and execution graph visualization
 - **Zustand**: Lightweight state management
 - **React Query**: Server state management and caching
+- **Persistence UI**: Save/Save As modals and Algorithm Library management
+- **Collaboration UI**: Real-time sharing modals and permission badges
 
 ### Backend (`/backend`)
 - **FastAPI**: High-performance async Python API
-- **SQLAlchemy**: ORM for PostgreSQL
+- **SQLAlchemy**: ORM for PostgreSQL (User models, Algorithm persistence)
 - **Celery**: Distributed task queue
-- **WebSockets**: Real-time communication
+- **WebSockets**: Real-time communication & Collaborative updates
 - **Alembic**: Database migrations
 
 ### Execution Engine (`/execution-engine`)
@@ -590,6 +595,7 @@ User Code Input → Backend API → Execution Engine (Docker) → Step-by-step e
 - **Prompt Engineering**: Adaptive explanation generation
 - **RAG**: Vector store for algorithm knowledge
 - **Learner Profiling**: Adaptive difficulty adjustment
+- **Collaborative Assistant**: AI-driven collaborative coding support
 - **Multi-LLM**: OpenAI + Anthropic with fallback
 
 ### Visualization Engine (`/visualization-engine`)

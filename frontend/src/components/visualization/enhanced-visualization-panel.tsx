@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Boxes, Loader2, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
+import { Boxes, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import type { VisualizationPanelProps } from '@/lib/types/types';
+import { useExecutionStore } from '@/lib/store/executionStore';
 
 // ---------------------------------------------------------------------------
 // Type definitions for enhanced visualizations
@@ -541,7 +542,7 @@ function ArrayVisualization({ data = [], highlights = [], pointers = [] }: Array
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 >
                   <span className="absolute inset-x-0 top-2 text-center text-xs font-medium text-white">
-                    {typeof element.value === 'object' && element.value !== null ? String((element.value as any).value) : element.value}
+                    {typeof element.value === 'object' && element.value !== null ? String((element.value as Record<string, unknown>).value) : element.value}
                   </span>
                 </motion.div>
 
@@ -562,7 +563,7 @@ function ArrayVisualization({ data = [], highlights = [], pointers = [] }: Array
 // Enhanced Dry Run Display
 // ---------------------------------------------------------------------------
 
-function EnhancedDryRunTrace({ frame }: { frame: any }) {
+function EnhancedDryRunTrace({ frame }: { frame: Record<string, unknown> }) {
   const vars = frame.variables || {};
   const prevVars = usePrevious(vars) || {};
 
@@ -621,13 +622,13 @@ function EnhancedDryRunTrace({ frame }: { frame: any }) {
 
               return (
                 <motion.div 
-                  key={`arr-${idx}-${typeof val === 'object' && val !== null ? (val as any).value : val}`}
+                  key={`arr-${idx}-${typeof val === 'object' && val !== null ? (val as Record<string, unknown>).value : val}`}
                   layout
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className={`flex flex-col items-center justify-center rounded border ${border} ${bg} w-10 h-10`}
                 >
-                  <span className={`text-xs font-bold ${text}`}>{typeof val === 'object' && val !== null ? String((val as any).value) : val}</span>
+                  <span className={`text-xs font-bold ${text}`}>{typeof val === 'object' && val !== null ? String((val as Record<string, unknown>).value) : val}</span>
                   <span className="text-[8px] text-muted-foreground">[{idx}]</span>
                 </motion.div>
               );
@@ -652,7 +653,7 @@ function EnhancedDryRunTrace({ frame }: { frame: any }) {
             </thead>
             <tbody>
               <AnimatePresence>
-                {Object.entries(vars).map(([key, val]: [string, any]) => {
+                {Object.entries(vars).map(([key, val]: [string, Record<string, unknown>]) => {
                   const isChanged = prevVars[key] !== undefined && prevVars[key] !== val;
                   
                   return (
@@ -676,7 +677,7 @@ function EnhancedDryRunTrace({ frame }: { frame: any }) {
                       </td>
                       <td className="py-2 font-mono text-foreground font-bold relative">
                         <motion.span
-                          key={`val-${typeof val === 'object' && val !== null ? (val as any).value : val}`}
+                          key={`val-${typeof val === 'object' && val !== null ? (val as Record<string, unknown>).value : val}`}
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
                         >
@@ -708,23 +709,37 @@ function EnhancedDryRunTrace({ frame }: { frame: any }) {
 
 export function EnhancedVisualizationPanel({
   activeTab,
-  currentFrame,
-  totalFrames,
-  isPlaying,
   onTabChange,
-  isLoading = false,
 }: VisualizationPanelProps) {
-  if (isLoading || !currentFrame) {
+  const frames = useExecutionStore((state) => state.frames);
+  const currentFrameIndex = useExecutionStore((state) => state.currentFrameIndex);
+  const isPlaying = useExecutionStore((state) => state.isPlaying);
+  
+  const rawCurrentFrame = frames[currentFrameIndex] ?? null;
+  let activeLine = 1;
+  const language = useExecutionStore((state) => state.language);
+  if (rawCurrentFrame?.activeLine !== undefined) {
+    activeLine = typeof rawCurrentFrame.activeLine === 'object' 
+      ? (rawCurrentFrame.activeLine as Record<string, number>)[language] || 1
+      : rawCurrentFrame.activeLine;
+  }
+  const currentFrame = rawCurrentFrame ? { ...rawCurrentFrame, activeLine } : null;
+  const totalFrames = frames.length || 1;
+  
+  if (!currentFrame || frames.length === 0) {
     return (
-      <section className="flex h-full min-h-[26rem] flex-col items-center justify-center rounded border border-border bg-card p-2">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="mt-2 text-sm text-muted-foreground">Loading visualizer…</p>
+      <section className="flex h-full min-h-[26rem] flex-col items-center justify-center rounded border border-border bg-card p-4 text-center">
+        <Boxes className="h-10 w-10 text-muted-foreground mb-4 opacity-50" />
+        <h3 className="text-lg font-medium text-foreground">Waiting for execution...</h3>
+        <p className="mt-2 text-sm text-muted-foreground max-w-sm">
+          Select an algorithm and click &quot;Run Code&quot; to view the live execution trace and visualization.
+        </p>
       </section>
     );
   }
 
-  const visualization = (currentFrame as any).visualization;
-  const flowchart = (currentFrame as any).flowchart;
+  const visualization = (currentFrame as Record<string, unknown>).visualization as Record<string, unknown>;
+  const flowchart = (currentFrame as Record<string, unknown>).flowchart;
   const visualizationType = visualization?.type || 'array';
 
   return (
@@ -737,7 +752,7 @@ export function EnhancedVisualizationPanel({
             Visualizer
           </div>
           <p className="mt-0.5 text-[10px] text-muted-foreground">
-            Frame {(currentFrame as any).frameNumber || (currentFrame as any).frameIndex + 1} of {totalFrames}
+            Frame {(currentFrame as Record<string, unknown>).frameNumber || (currentFrame as Record<string, unknown>).frameIndex as number + 1} of {totalFrames}
           </p>
         </div>
 

@@ -17,6 +17,7 @@
 7. [Phase 7: Integration Layer](#phase-7) (Weeks 32-35)
 8. [Phase 8: Testing & Debugging](#phase-8) (Weeks 36-39)
 9. [Phase 9: Deployment & Scaling](#phase-9) (Weeks 40-44)
+10. [Phase 10: Persistence & Collaboration](#phase-10) (Weeks 45-48)
 
 ---
 
@@ -1250,6 +1251,39 @@ jobs:
 
 ---
 
+## Phase 10: Persistence & Collaboration (Weeks 45-48)
+
+### Overview
+Implement user algorithm storage, versioning, and collaborative sharing features with permission management.
+
+### Sub-Phase 10.1: Backend Integration (Week 45)
+- **Database Migrations**: Add `user_algorithms` and `algorithm_shares` tables.
+- **Repositories**: Implement `UserAlgorithmRepository` and `ShareRepository`.
+- **API Endpoints**: CRUD for algorithms and sharing management.
+
+### Sub-Phase 10.2: Frontend Persistence (Week 46)
+- **Workspace State**: Update Zustand store to handle saved algorithms.
+- **Editor Features**: "Save", "Save As", "Rename" functionality.
+- **Algorithm Library**: "My Algorithms" view for managing saved work.
+
+### Sub-Phase 10.3: Collaboration UI (Week 47)
+- **Share Modal**: UI for sharing by email/username with permission selection.
+- **Collaborative Views**: "Shared with Me" algorithm category.
+- **Permission Enforcement**: Disable editing in UI for 'view-only' shares.
+
+### Sub-Phase 10.4: Notification & Real-time (Week 48)
+- **Sharing Notifications**: Notify users when an algorithm is shared with them.
+- **Link Sharing**: Generate shareable links for public algorithms.
+- **Access Control**: Robust backend validation for all shared resource access.
+
+**Deliverables:**
+- Fully persistent user workspaces
+- Permission-based algorithm sharing
+- Collaborative learning environment
+- Shareable algorithm library
+
+---
+
 ## Success Metrics
 
 ### Technical Metrics
@@ -1304,7 +1338,7 @@ jobs:
 
 This master implementation roadmap provides a comprehensive, step-by-step guide to building ProGyan AlgoLens from architecture to production deployment. Each phase builds upon the previous, ensuring a solid foundation and systematic progress toward a scalable, secure, and user-friendly algorithm visualization platform.
 
-**Total Timeline**: 44 weeks (approximately 11 months)  
+**Total Timeline**: 48 weeks (approximately 12 months)  
 **Team Size**: 8-12 engineers  
 **Budget Estimate**: $500K - $800K (including infrastructure, tools, and team)
 

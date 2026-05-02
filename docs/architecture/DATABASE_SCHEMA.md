@@ -169,6 +169,48 @@ CREATE TABLE algorithm_implementations (
 
 CREATE INDEX idx_algorithm_implementations_algorithm_id ON algorithm_implementations(algorithm_id);
 CREATE INDEX idx_algorithm_implementations_language ON algorithm_implementations(language);
+
+---
+
+### user_algorithms
+Algorithms saved by users for persistence.
+
+```sql
+CREATE TABLE user_algorithms (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    code TEXT NOT NULL,
+    language VARCHAR(50) NOT NULL,
+    is_public BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_user_algorithms_user_id ON user_algorithms(user_id);
+CREATE INDEX idx_user_algorithms_title ON user_algorithms(title);
+```
+
+---
+
+### algorithm_shares
+Permissions for shared algorithms.
+
+```sql
+CREATE TABLE algorithm_shares (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    algorithm_id UUID NOT NULL REFERENCES user_algorithms(id) ON DELETE CASCADE,
+    shared_with_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    permission VARCHAR(20) NOT NULL CHECK (permission IN ('view', 'edit')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    
+    UNIQUE(algorithm_id, shared_with_user_id)
+);
+
+CREATE INDEX idx_algorithm_shares_user_id ON algorithm_shares(shared_with_user_id);
+CREATE INDEX idx_algorithm_shares_algorithm_id ON algorithm_shares(algorithm_id);
+```
 ```
 
 ---
@@ -445,8 +487,11 @@ users (1) ──< (M) execution_sessions
 users (1) ──< (M) user_progress
 users (1) ──< (M) explanation_feedback
 users (1) ──< (M) oauth_accounts
-users (1) ──< (1) user_profiles
 users (1) ──< (1) learner_profiles
+
+user_algorithms (1) ──< (M) algorithm_shares
+users (1) ──< (M) user_algorithms
+users (1) ──< (M) algorithm_shares (shared_with)
 
 algorithms (1) ──< (M) algorithm_implementations
 algorithms (1) ──< (M) execution_sessions

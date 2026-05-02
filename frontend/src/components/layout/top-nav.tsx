@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import type { TopNavProps } from '@/lib/types/types';
 import { AlgorithmSelector } from '@/components/shared/algorithm-selector';
+import { useExecutionStore } from '@/lib/store/executionStore';
+import { useHasHydrated } from '@/lib/hooks/useHasHydrated';
 
 const pillClasses =
   'inline-flex items-center gap-1.5 rounded border border-border bg-card px-2 py-0.5 text-[10px] text-muted-foreground';
@@ -43,6 +45,10 @@ export function TopNav({
   onAlgorithmChange?: (algorithmId: string) => void;
   onTogglePanel?: (panel: 'editor' | 'visualizer' | 'notes') => void;
 }) {
+  const hasHydrated = useHasHydrated();
+  const connectionStatus = useExecutionStore((state) => state.connectionStatus);
+  const isConnected = connectionStatus === 'connected';
+
   return (
     <header className="border-b border-border bg-background px-3 py-2 md:px-4 lg:px-6">
       <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
@@ -79,6 +85,25 @@ export function TopNav({
               </div>
             </>
           )}
+
+          {/* Connection Status Indicator */}
+          <div className="hidden h-6 w-px bg-border sm:block" />
+          <div className="flex items-center gap-2 px-2 py-1 rounded-full bg-card/50 border border-border/50">
+            <div className="relative flex h-2 w-2">
+              {isConnected && (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              )}
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                !hasHydrated ? 'bg-muted' :
+                isConnected ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 
+                connectionStatus === 'connecting' || connectionStatus === 'reconnecting' ? 'bg-yellow-500' : 
+                'bg-red-500'
+              }`} />
+            </div>
+            <span className="text-[10px] font-medium uppercase tracking-tighter text-muted-foreground min-w-[70px]">
+              {!hasHydrated ? 'Initializing...' : connectionStatus}
+            </span>
+          </div>
         </div>
 
         {/* ── Status & actions ─────────────────────────────────── */}

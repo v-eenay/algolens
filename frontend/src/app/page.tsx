@@ -3,21 +3,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import { MockCodeEditorPanel } from '@/components/editor/mock-code-editor-panel';
+import { CodeEditorPanel } from '@/components/editor/mock-code-editor-panel';
 import { SideDescriptionPanel } from '@/components/ai-explanation/side-description-panel';
 import { BottomDock } from '@/components/layout/bottom-dock';
 import { TopNav } from '@/components/layout/top-nav';
 import { EnhancedVisualizationPanel } from '@/components/visualization/enhanced-visualization-panel';
+import { useExecutionStore } from '@/lib/store/executionStore';
+import { useExecutionSocket } from '@/lib/hooks/useExecutionSocket';
+import { useHasHydrated } from '@/lib/hooks/useHasHydrated';
 
-import {
-  sendChatMessage,
-} from '@/lib/mock-data/mock-api';
+import { algorithmTemplates } from '@/lib/constants/algorithm-templates';
 
 import type {
   ChatMessage,
   EditorLanguage,
-  EditorStateMap,
-  ExecutionFrame,
   ThemeMode,
   VisualizerTab,
 } from '@/lib/types/types';
@@ -27,15 +26,16 @@ import type {
 // ---------------------------------------------------------------------------
 
 export default function Home() {
+  const hasHydrated = useHasHydrated();
+
   // ── Theme ─────────────────────────────────────────────────────────────────
   const [theme, setTheme] = useState<ThemeMode>('dark');
 
   // ── Algorithm selection ───────────────────────────────────────────────────
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('quick-sort');
-  const [, setAlgorithmData] = useState<any>(null);
 
   // ── UI state ──────────────────────────────────────────────────────────────
-  const [language, setLanguage] = useState<EditorLanguage>('Python');
+  const language = useExecutionStore((state) => state.language) as EditorLanguage;
   const [visualizerTab, setVisualizerTab] = useState<VisualizerTab>('animated');
   const [sidePanelOpen, setSidePanelOpen] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(true);
@@ -47,18 +47,43 @@ export default function Home() {
     notes: true,
   });
 
+  // ── WebSocket ─────────────────────────────────────────────────────────────
+  const { sendCode, isConnected } = useExecutionSocket();
+
   // ── Data state ────────────────────────────────────────────────────────────
-  const [editorState, setEditorState] = useState<EditorStateMap | null>(null);
-  const [frames, setFrames] = useState<ExecutionFrame[]>([]);
+  const code = useExecutionStore((state) => state.code);
+  const frames = useExecutionStore((state) => state.frames);
+  const resetExecution = useExecutionStore((state) => state.resetExecution);
+  const setLanguage = useExecutionStore((state) => state.setLanguage);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [isLoadingEditor, setIsLoadingEditor] = useState(true);
-  const [isLoadingFrames, setIsLoadingFrames] = useState(true);
-  const [isLoadingChat, setIsLoadingChat] = useState(true);
 
   // ── Playback state ────────────────────────────────────────────────────────
-  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const currentFrameIndex = useExecutionStore((state) => state.currentFrameIndex);
+  const setCurrentFrameIndex = useExecutionStore((state) => state.setCurrentFrameIndex);
+  const isPlaying = useExecutionStore((state) => state.isPlaying);
+  const setIsPlaying = useExecutionStore((state) => state.setIsPlaying);
+  const setCode = useExecutionStore((state) => state.setCode);
+  
   const playIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // ── Sync boilerplate when algorithm changes ───────────────────────────────
+  useEffect(() => {
+    // 1. Fully reset execution state to prevent stale visualization data
+    resetExecution();
+    
+    // 2. Clear UI-specific local states
+    setChatMessages([]);
+    
+    // 3. Load boilerplate code
+    const template = algorithmTemplates[selectedAlgorithm];
+    if (template) {
+      setCode(template.code);
+      setLanguage(template.language);
+    } else {
+      setCode('# Boilerplate not found for this algorithm');
+      setLanguage('Python');
+    }
+  }, [selectedAlgorithm, resetExecution, setCode, setLanguage]);
 
   // ── Theme sync ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -67,76 +92,12 @@ export default function Home() {
     root.style.colorScheme = theme;
   }, [theme]);
 
-  // ── Load algorithm data when selection changes ────────────────────────────
-  useEffect(() => {
-    const loadAlgorithmData = async () => {
-      try {
-        setIsLoadingEditor(true);
-        setIsLoadingFrames(true);
-        setIsLoadingChat(true);
-
-        // Dynamically import the algorithm JSON file
-        const data = await import(`@/lib/mock-data/algorithms/${selectedAlgorithm}.json`);
-        setAlgorithmData(data.default || data);
-
-        // Extract data from algorithm JSON
-        const algoData = data.default || data;
-        
-        // Set editor state from algorithm code
-        const editorStateMap: EditorStateMap = {
-          Python: {
-            filename: `${algoData.name.toLowerCase().replace(/\s+/g, '_')}.py`,
-            lines: algoData.code.python.split('\n'),
-          },
-          'C++': {
-            filename: `${algoData.name.toLowerCase().replace(/\s+/g, '_')}.cpp`,
-            lines: algoData.code.cpp.split('\n'),
-          },
-          JavaScript: {
-            filename: `${algoData.name.toLowerCase().replace(/\s+/g, '_')}.js`,
-            lines: algoData.code.javascript.split('\n'),
-          },
-        };
-        setEditorState(editorStateMap);
-
-        // Set execution frames
-        setFrames(algoData.executionFrames || []);
-        setCurrentFrameIndex(0);
-
-        // Set AI chat messages
-        const initialMessages: ChatMessage[] = algoData.aiExplanation?.map((msg: any, idx: number) => ({
-          id: `msg-${idx}`,
-          role: msg.role,
-          content: msg.content,
-        })) || [];
-        setChatMessages(initialMessages);
-
-        setIsLoadingEditor(false);
-        setIsLoadingFrames(false);
-        setIsLoadingChat(false);
-      } catch (error) {
-        console.error('Failed to load algorithm:', error);
-        setIsLoadingEditor(false);
-        setIsLoadingFrames(false);
-        setIsLoadingChat(false);
-      }
-    };
-
-    loadAlgorithmData();
-  }, [selectedAlgorithm]);
-
   // ── Playback interval ─────────────────────────────────────────────────────
+  const nextFrame = useExecutionStore((state) => state.nextFrame);
   useEffect(() => {
     if (isPlaying && frames.length > 0) {
       playIntervalRef.current = setInterval(() => {
-        setCurrentFrameIndex((prev) => {
-          const next = prev + 1;
-          if (next >= frames.length) {
-            setIsPlaying(false);
-            return prev;
-          }
-          return next;
-        });
+        nextFrame();
       }, 1200);
     }
 
@@ -146,23 +107,23 @@ export default function Home() {
         playIntervalRef.current = null;
       }
     };
-  }, [isPlaying, frames.length]);
+  }, [isPlaying, frames.length, nextFrame]);
 
   // ── Stop playback when reaching end ───────────────────────────────────────
   useEffect(() => {
     if (currentFrameIndex >= frames.length - 1 && isPlaying) {
       setIsPlaying(false);
     }
-  }, [currentFrameIndex, frames.length, isPlaying]);
+  }, [currentFrameIndex, frames.length, isPlaying, setIsPlaying]);
 
   // ── Derived data ──────────────────────────────────────────────────────────
   const rawCurrentFrame = frames[currentFrameIndex] ?? null;
-  const currentEditorLang = editorState?.[language] ?? null;
+  const currentEditorLang = { filename: `${selectedAlgorithm}.${language === 'Python' ? 'py' : language === 'C++' ? 'cpp' : 'js'}` };
 
   let activeLine = 1;
   if (rawCurrentFrame?.activeLine !== undefined) {
     activeLine = typeof rawCurrentFrame.activeLine === 'object' 
-      ? (rawCurrentFrame.activeLine as any)[language] || 1
+      ? (rawCurrentFrame.activeLine as Record<string, number>)[language] || 1
       : rawCurrentFrame.activeLine;
   }
 
@@ -174,37 +135,35 @@ export default function Home() {
   }, []);
 
   const handlePlayToggle = useCallback(() => {
-    setIsPlaying((prev) => {
-      // If at end, reset to start before playing
-      if (!prev && currentFrameIndex >= frames.length - 1) {
-        setCurrentFrameIndex(0);
-      }
-      return !prev;
-    });
-  }, [currentFrameIndex, frames.length]);
+    if (!isPlaying && currentFrameIndex >= frames.length - 1) {
+      setCurrentFrameIndex(0);
+    }
+    setIsPlaying(!isPlaying);
+  }, [currentFrameIndex, frames.length, isPlaying, setCurrentFrameIndex, setIsPlaying]);
 
   const handleStop = useCallback(() => {
     setIsPlaying(false);
     setCurrentFrameIndex(0);
-  }, []);
+  }, [setIsPlaying, setCurrentFrameIndex]);
 
   const handleStepBackward = useCallback(() => {
     setIsPlaying(false);
-    setCurrentFrameIndex((prev) => Math.max(0, prev - 1));
-  }, []);
+    setCurrentFrameIndex(Math.max(0, currentFrameIndex - 1));
+  }, [currentFrameIndex, setIsPlaying, setCurrentFrameIndex]);
 
   const handleStepForward = useCallback(() => {
     setIsPlaying(false);
-    setCurrentFrameIndex((prev) => Math.min(frames.length - 1, prev + 1));
-  }, [frames.length]);
+    setCurrentFrameIndex(Math.min(frames.length - 1, currentFrameIndex + 1));
+  }, [currentFrameIndex, frames.length, setIsPlaying, setCurrentFrameIndex]);
 
   const handleFrameChange = useCallback((idx: number) => {
     setIsPlaying(false);
     setCurrentFrameIndex(idx);
-  }, []);
+  }, [setIsPlaying, setCurrentFrameIndex]);
 
   const handleSendMessage = useCallback(async (message: string) => {
-    const { userMsg, assistantMsg } = await sendChatMessage(message);
+    const userMsg: ChatMessage = { id: Date.now().toString(), role: 'user', content: message };
+    const assistantMsg: ChatMessage = { id: (Date.now() + 1).toString(), role: 'assistant', content: 'AI chat is currently disabled without mock data.' };
     setChatMessages((prev) => [...prev, userMsg, assistantMsg]);
   }, []);
 
@@ -214,19 +173,26 @@ export default function Home() {
       ...prev,
       [panel]: !prev[panel],
     }));
-    // Sync notes panel with sidePanelOpen
     if (panel === 'notes') {
       setSidePanelOpen((prev) => !prev);
     }
   }, []);
 
   // ── Layout calculations ───────────────────────────────────────────────────
-  // Calculate panel widths based on visible panels
   const visibleCount = Object.values(visiblePanels).filter(Boolean).length;
   const panelWidth = visibleCount > 0 ? `${100 / visibleCount}%` : '0%';
-  
-  // Calculate bottom dock height: terminal (collapsed: 80px, expanded: 200px) + transport bar (100px) + padding (24px)
   const bottomDockHeight = terminalOpen ? 324 : 204;
+
+  if (!hasHydrated) {
+    return (
+      <div className="h-screen w-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          <p className="text-muted-foreground text-sm font-medium animate-pulse">Initializing AlgoLens Architecture...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-background text-foreground">
@@ -249,6 +215,18 @@ export default function Home() {
             onToggleTheme={handleThemeToggle}
             onTogglePanel={handleTogglePanel}
           />
+          
+          {/* Run Code Button - Refined positioning */}
+          <div className="absolute top-4 right-[380px] z-50">
+            <button 
+              onClick={() => sendCode(code, language)}
+              disabled={!isConnected}
+              className="bg-primary text-primary-foreground px-5 py-2 rounded text-xs font-bold hover:bg-primary/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-lg hover:shadow-primary/20 active:scale-95 flex items-center gap-2 border border-primary/20"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              RUN EXECUTION
+            </button>
+          </div>
         </div>
 
         {/* ── Main content ────────────────────────────────────── */}
@@ -267,13 +245,9 @@ export default function Home() {
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 className="min-h-[26rem]"
               >
-                <MockCodeEditorPanel
-                  language={language}
-                  lines={currentEditorLang?.lines ?? []}
-                  filename={currentEditorLang?.filename ?? 'loading…'}
+                <CodeEditorPanel
+                  filename={currentEditorLang.filename}
                   activeLine={currentFrame?.activeLine ?? 1}
-                  onLanguageChange={setLanguage}
-                  isLoading={isLoadingEditor}
                 />
               </motion.div>
             )}
@@ -290,11 +264,7 @@ export default function Home() {
               >
                 <EnhancedVisualizationPanel
                   activeTab={visualizerTab}
-                  currentFrame={currentFrame}
-                  totalFrames={frames.length || 1}
-                  isPlaying={isPlaying}
                   onTabChange={setVisualizerTab}
-                  isLoading={isLoadingFrames}
                 />
               </motion.div>
             )}
@@ -315,7 +285,6 @@ export default function Home() {
                   currentFrame={currentFrame}
                   onToggle={() => handleTogglePanel('notes')}
                   onSendMessage={handleSendMessage}
-                  isLoading={isLoadingChat}
                 />
               </motion.div>
             )}

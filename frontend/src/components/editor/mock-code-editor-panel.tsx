@@ -5,22 +5,21 @@ import Editor, { OnMount } from '@monaco-editor/react';
 import type * as Monaco from 'monaco-editor';
 import { ChevronDown, Code2, Loader2, PlayCircle } from 'lucide-react';
 import type { MockCodeEditorPanelProps } from '@/lib/types/types';
+import { useExecutionStore } from '@/lib/store/executionStore';
 
-export function MockCodeEditorPanel({
-  language,
-  lines,
+export function CodeEditorPanel({
   filename,
   activeLine,
-  onLanguageChange,
-  isLoading = false,
 }: MockCodeEditorPanelProps) {
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<typeof Monaco | null>(null);
   const decorationsRef = useRef<string[]>([]);
   const [isEditorReady, setIsEditorReady] = useState(false);
 
-  // Convert lines array to string for Monaco
-  const code = lines.join('\n');
+  const code = useExecutionStore((state) => state.code);
+  const language = useExecutionStore((state) => state.language);
+  const setLanguage = useExecutionStore((state) => state.setLanguage);
+  const setCode = useExecutionStore((state) => state.setCode);
 
   // Map our language types to Monaco language IDs
   const getMonacoLanguage = (lang: string): string => {
@@ -126,7 +125,9 @@ export function MockCodeEditorPanel({
     }
 
     // Add new decoration for active line
-    if (activeLine > 0 && activeLine <= lines.length) {
+    // Estimate total lines from code to prevent out of bounds
+    const totalLines = code.split('\n').length;
+    if (activeLine > 0 && activeLine <= totalLines) {
       decorationsRef.current = editor.deltaDecorations(
         [],
         [
@@ -148,30 +149,22 @@ export function MockCodeEditorPanel({
       // Scroll to active line
       editor.revealLineInCenter(activeLine);
     }
-  }, [activeLine, lines.length, isEditorReady]);
+  }, [activeLine, code, isEditorReady]);
 
-  // Update editor content when lines change
+  // Update editor content when code changes
   useEffect(() => {
     if (!editorRef.current || !isEditorReady) return;
     
     const currentValue = editorRef.current.getValue();
-    const newValue = lines.join('\n');
+    const newValue = code;
     
     // Only update if content actually changed
     if (currentValue !== newValue) {
       editorRef.current.setValue(newValue);
     }
-  }, [lines, isEditorReady]);
+  }, [code, isEditorReady]);
 
-  if (isLoading) {
-    return (
-      <section className="flex h-full min-h-[26rem] flex-col items-center justify-center rounded border border-border bg-card p-2">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="mt-2 text-sm text-muted-foreground">Loading editor…</p>
-      </section>
-    );
-  }
-
+  // (isLoading removed since code editor relies on Zustand)
   return (
     <section className="flex h-full min-h-[26rem] flex-col rounded border border-border bg-card p-2">
       {/* ── Header ─────────────────────────────────────────────── */}
@@ -192,9 +185,7 @@ export function MockCodeEditorPanel({
             <select
               id="language-selector"
               className="h-8 appearance-none rounded border border-border bg-background px-3 pr-8 text-xs text-foreground outline-none transition-colors duration-200 focus:border-primary"
-              onChange={(e) =>
-                onLanguageChange(e.target.value as 'Python' | 'C++' | 'JavaScript')
-              }
+              onChange={(e) => setLanguage(e.target.value)}
               value={language}
             >
               <option>Python</option>
@@ -229,6 +220,7 @@ export function MockCodeEditorPanel({
             value={code}
             theme="vs-dark"
             onMount={handleEditorDidMount}
+            onChange={(value) => setCode(value || '')}
             loading={
               <div className="flex h-full items-center justify-center">
                 <Loader2 className="h-6 w-6 animate-spin text-primary" />

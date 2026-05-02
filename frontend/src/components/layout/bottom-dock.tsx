@@ -36,7 +36,7 @@ export function BottomDock({
     ? (() => {
         const lines: string[] = [
           `> algolens exec --algorithm quick-sort-partition`,
-          `> frame=${currentFrame.frameIndex + 1}/${totalFrames}${currentFrame.variables?.pivot !== undefined ? `  pivot=${typeof currentFrame.variables.pivot === 'object' && currentFrame.variables.pivot !== null ? (currentFrame.variables.pivot as any).value : currentFrame.variables.pivot}` : ''}`,
+          `> frame=${currentFrame.frameIndex + 1}/${totalFrames}${currentFrame.variables?.pivot !== undefined ? `  pivot=${typeof currentFrame.variables.pivot === 'object' && currentFrame.variables.pivot !== null ? (currentFrame.variables.pivot as Record<string, unknown>).value : currentFrame.variables.pivot}` : ''}`,
           `[trace] active line -> ${currentFrame.activeLine}`,
         ];
 

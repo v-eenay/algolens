@@ -13,7 +13,9 @@
 2. [Execution Endpoints](#execution-endpoints)
 3. [Algorithm Endpoints](#algorithm-endpoints)
 4. [User Endpoints](#user-endpoints)
-5. [Analytics Endpoints](#analytics-endpoints)
+5. [Persistence Endpoints](#persistence-endpoints)
+6. [Collaboration Endpoints](#collaboration-endpoints)
+7. [Analytics Endpoints](#analytics-endpoints)
 6. [WebSocket API](#websocket-api)
 7. [Error Responses](#error-responses)
 8. [Rate Limiting](#rate-limiting)
@@ -457,6 +459,148 @@ Content-Type: application/json
 
 ---
 
+## Persistence Endpoints
+
+### GET /user/algorithms
+List user's saved algorithms.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "total": 12,
+  "algorithms": [
+    {
+      "id": "7f3d8e9a-1b2c-4d5e-8f9a-0b1c2d3e4f5a",
+      "title": "My Optimized Bubble Sort",
+      "language": "python",
+      "created_at": "2024-01-15T10:30:00Z",
+      "updated_at": "2024-01-15T10:30:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### POST /user/algorithms
+Save a new algorithm.
+
+**Request:**
+```json
+{
+  "title": "Recursive Merge Sort",
+  "description": "Implementation of merge sort using recursion",
+  "code": "def merge_sort(arr):...",
+  "language": "python",
+  "is_public": false
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "id": "7f3d8e9a-1b2c-4d5e-8f9a-0b1c2d3e4f5a",
+  "message": "Algorithm saved successfully"
+}
+```
+
+---
+
+### GET /user/algorithms/{id}
+Get details of a saved algorithm.
+
+**Response (200 OK):**
+```json
+{
+  "id": "7f3d8e9a-1b2c-4d5e-8f9a-0b1c2d3e4f5a",
+  "title": "Recursive Merge Sort",
+  "description": "Implementation of merge sort using recursion",
+  "code": "def merge_sort(arr):...",
+  "language": "python",
+  "is_public": false,
+  "owner_id": "550e8400-e29b-41d4-a716-446655440000",
+  "permission": "owner"
+}
+```
+
+---
+
+### PATCH /user/algorithms/{id}
+Update a saved algorithm.
+
+**Request:**
+```json
+{
+  "title": "Updated Title",
+  "code": "..."
+}
+```
+
+**Response (200 OK)**
+
+---
+
+### DELETE /user/algorithms/{id}
+Delete a saved algorithm.
+
+**Response (204 No Content)**
+
+---
+
+## Collaboration Endpoints
+
+### POST /user/algorithms/{id}/share
+Share an algorithm with another user.
+
+**Request:**
+```json
+{
+  "email": "collaborator@example.com",
+  "permission": "edit"
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "share_id": "8f9a-0b1c2d3e4f5a-7f3d8e9a-1b2c-4d5e",
+  "message": "Algorithm shared successfully with collaborator@example.com"
+}
+```
+
+---
+
+### GET /user/algorithms/{id}/shares
+List existing shares for an algorithm.
+
+**Response (200 OK):**
+```json
+{
+  "shares": [
+    {
+      "share_id": "8f9a-0b1c2d3e4f5a-7f3d8e9a-1b2c-4d5e",
+      "user_email": "collaborator@example.com",
+      "permission": "edit",
+      "created_at": "2024-01-16T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### DELETE /user/shares/{share_id}
+Revoke a share.
+
+**Response (204 No Content)**
+
+---
+
 ## Analytics Endpoints
 
 ### GET /analytics/progress
@@ -727,6 +871,8 @@ X-RateLimit-Reset: 1705318200
 | `/auth/login` | 5 requests | 15 minutes |
 | `/auth/register` | 3 requests | 1 hour |
 | `/execution/start` | 10 requests | 1 minute |
+| `/user/algorithms` | 50 requests | 1 minute |
+| `/user/algorithms/*/share` | 20 requests | 1 minute |
 | `/execution/*` (GET) | 100 requests | 1 minute |
 | `/algorithms/*` | 100 requests | 1 minute |
 | `/users/*` | 50 requests | 1 minute |
