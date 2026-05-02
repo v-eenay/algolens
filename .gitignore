@@ -25,6 +25,7 @@ frontend/out/
 build/
 frontend/build/
 dist/
+coverage/
 .turbo/
 frontend/.turbo/
 .vercel/
@@ -32,6 +33,9 @@ frontend/.turbo/
 .cache/
 .parcel-cache/
 .sass-cache/
+.npm/
+.pnpm-store/
+.node-gyp/
 *.tsbuildinfo
 next-env.d.ts
 
@@ -60,12 +64,19 @@ poetry.lock
 # Python Caches
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
+.pyre/
 .hypothesis/
 .tox/
 .nox/
 .coverage
 .coverage.*
 htmlcov/
+.ipynb_checkpoints/
+
+# Python Packaging
+*.egg-info/
+*.dist-info/
 
 # ===== IDEs and Editors =====
 .vscode/
@@ -138,7 +149,6 @@ ai-service/vector_store/
 *.sqlite3
 *.db-shm
 *.db-wal
-data/
 pgdata/
 redis-data/
 
