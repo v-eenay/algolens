@@ -37,7 +37,7 @@ export interface ExecutionFrame {
   // Support for different visualization types
   visualization?: {
     type: 'array' | 'tree' | 'graph' | 'table' | 'linkedlist';
-    data?: any;
+    data?: Record<string, unknown>;
   };
 }
 
@@ -60,6 +60,14 @@ export interface AIChatData {
 // ---------------------------------------------------------------------------
 // Component prop interfaces
 // ---------------------------------------------------------------------------
+
+/** WebSocket Connection status. */
+export type ConnectionStatus =
+  | 'connecting'
+  | 'connected'
+  | 'disconnected'
+  | 'reconnecting'
+  | 'error';
 
 export interface MockCodeEditorPanelProps {
   filename: string;

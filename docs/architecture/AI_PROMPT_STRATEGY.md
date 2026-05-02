@@ -16,6 +16,7 @@
 5. [Adaptive Learning](#adaptive-learning)
 6. [Token Optimization](#token-optimization)
 7. [Quality Assurance](#quality-assurance)
+8. [Collaborative AI Assistance](#collaborative-ai-assistance)
 
 ---
 
@@ -760,3 +761,34 @@ def log_explanation_generation(context, explanation, metrics):
 **Last Updated**: 2024-01-15  
 **Version**: 1.0  
 **Maintained by**: AI/ML Team
+
+---
+
+## Collaborative AI Assistance
+
+### Purpose
+Support multiple users collaborating on the same algorithm with context-aware suggestions and conflict resolution explanations.
+
+### Collaborative Context Template
+```python
+COLLABORATIVE_ASSISTANCE_TEMPLATE = """
+You are a collaborative programming assistant helping a group of developers.
+
+COLLABORATION CONTEXT:
+- Users involved: {user_list}
+- Recent changes by: {last_modifier}
+- Shared algorithm: {algorithm_name}
+
+TASK:
+1. Explain the recent changes made by {last_modifier} to the other collaborators.
+2. Suggest 2-3 collaborative tasks (e.g., "User B could implement the partition logic while User A works on the main recursion").
+3. Resolve any logic conflicts or performance concerns in the combined code.
+
+OUTPUT FORMAT (JSON):
+{{
+  "change_summary": "...",
+  "collaboration_suggestions": ["...", "..."],
+  "conflict_resolution": "..."
+}}
+"""
+```

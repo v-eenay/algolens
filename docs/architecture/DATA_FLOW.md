@@ -11,7 +11,8 @@
 2. [Primary Data Flows](#primary-data-flows)
 3. [Component Interactions](#component-interactions)
 4. [Real-Time Communication](#real-time-communication)
-5. [Error Handling Flows](#error-handling-flows)
+5. [Algorithm Persistence & Sharing](#algorithm-persistence--sharing)
+6. [Error Handling Flows](#error-handling-flows)
 
 ---
 
@@ -565,6 +566,74 @@ POST /explain
 {"type": "execution:completed", "data": {...}}
 {"type": "execution:error", "data": {...}}
 ```
+
+```
+
+---
+
+## Algorithm Persistence & Sharing
+
+### Flow 5: Algorithm Persistence & Sharing
+
+```
+┌─────────────┐          ┌─────────────┐
+│   User A    │          │   User B    │
+└──────┬──────┘          └──────┬──────┘
+       │                        │
+       │ 1. Save algorithm      │
+       ▼                        │
+┌──────────────┐                │
+│   Backend    │ ──► Save to user_algorithms
+└──────┬───────┘                │
+       │                        │
+       │ 2. Share with User B   │
+       │    (by email/username) │
+       ▼                        │
+┌──────────────┐                │
+│   Backend    │ ──► Verify User B exists
+└──────┬───────┘ ──► Create algorithm_shares record
+       │                        │
+       │ 3. Notify User B       │
+       └───────────────────────►│
+                                │
+                                │ 4. Access shared algorithm
+                                ▼
+                        ┌──────────────┐
+                        │   Backend    │
+                        └──────┬───────┘
+                               │
+                               ├─► Check permissions
+                               ├─► If 'edit': allow PATCH
+                               └─► If 'view': allow GET only
+```
+
+**Data Transformations:**
+
+### Flow 6: UI-Driven Persistence & Collaboration (User Journey)
+```
+User interactions in Frontend UI
+         │
+         ├─► [CLICK SAVE]
+         │    └─► Open SaveDialog
+         │    └─► Submit Algorithm Data
+         │    └─► Toast: "Algorithm Saved Successfully"
+         │
+         ├─► [CLICK SHARE]
+         │    └─► Open ShareModal
+         │    └─► Search User by Email
+         │    └─► Submit Share Request (User + Permission)
+         │    └─► Toast: "Shared with user@example.com"
+         │
+         └─► [OPEN LIBRARY]
+              └─► GET /user/algorithms
+              └─► Render AlgorithmCard Grid
+              └─► Badge: [OWNER] or [SHARED: EDIT]
+```
+
+1. Algorithm JSON → user_algorithms record
+2. Email/Username → user_id lookup
+3. Share request → algorithm_shares record
+4. Access request → Permission validation logic
 
 ---
 

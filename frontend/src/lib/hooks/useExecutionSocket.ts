@@ -1,14 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useExecutionStore } from '../store/executionStore';
 import { transformExecutionStates } from '../utils/visualization-transformer';
-import { ExecutionFrame } from '../types/types';
-
-export type ConnectionStatus =
-  | 'connecting'
-  | 'connected'
-  | 'disconnected'
-  | 'reconnecting'
-  | 'error';
+import { ExecutionFrame, ConnectionStatus } from '../types/types';
 
 export interface ExecutionSocketPayload {
   code: string;
@@ -17,7 +10,7 @@ export interface ExecutionSocketPayload {
 
 export interface RawVariableState {
   type: string;
-  value: any;
+  value: unknown;
 }
 
 export interface RawCallStackFrame {
@@ -41,15 +34,19 @@ const WEBSOCKET_URL = 'ws://localhost:8000/ws/execute';
 const RECONNECT_INTERVAL_MS = 3000;
 const MAX_RECONNECT_ATTEMPTS = 5;
 
+/**
+ * Hook to manage WebSocket connection for code execution.
+ * Syncs connection status with useExecutionStore.
+ */
 export function useExecutionSocket(): UseExecutionSocketReturn {
-  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('disconnected');
-  
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectAttemptsRef = useRef<number>(0);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isComponentMounted = useRef<boolean>(true);
 
-  // Zustand actions
+  // Zustand state + actions
+  const connectionStatus = useExecutionStore((state) => state.connectionStatus);
+  const setConnectionStatus = useExecutionStore((state) => state.setConnectionStatus);
   const setFrames = useExecutionStore((state) => state.setFrames);
   const resetPlayback = useExecutionStore((state) => state.resetPlayback);
 
@@ -77,11 +74,8 @@ export function useExecutionSocket(): UseExecutionSocketReturn {
         
         try {
           const rawData = JSON.parse(event.data);
-          
-          // Depending on the backend, it could be a single state or an array of states
           const statesArray: RawExecutionState[] = Array.isArray(rawData) ? rawData : [rawData];
           
-          // Validate basic structure to prevent crashes
           const validStates = statesArray.filter(
             (state) => state && typeof state === 'object' && 'current_line' in state && Array.isArray(state.call_stack)
           );
@@ -125,7 +119,7 @@ export function useExecutionSocket(): UseExecutionSocketReturn {
       console.error('Failed to create WebSocket instance:', error);
       setConnectionStatus('error');
     }
-  }, [setFrames, resetPlayback]);
+  }, [setFrames, resetPlayback, setConnectionStatus]);
 
   useEffect(() => {
     isComponentMounted.current = true;

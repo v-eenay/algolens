@@ -111,7 +111,8 @@ This phase focuses on creating a solid architectural foundation that will guide 
    
    **Use Cases:**
    - User authentication
-   - Algorithm CRUD operations
+   - Algorithm CRUD operations (System & User-saved)
+   - Algorithm Sharing & Permissions management
    - User profile management
    - Historical data retrieval
    - Configuration updates
@@ -208,6 +209,8 @@ This phase focuses on creating a solid architectural foundation that will guide 
    → Engine streams updates via WebSocket
    → AI Service generates explanations
    → Frontend receives and visualizes updates
+   → User saves algorithm (Optional)
+   → Backend stores in `user_algorithms`
    → Backend stores execution history
    ```
 
@@ -223,6 +226,17 @@ This phase focuses on creating a solid architectural foundation that will guide 
    → Frontend displays with highlighting
    → User feedback collected
    → Learner profile updated
+   ```
+
+   **Flow 4: Collaborative Sharing Flow**
+   ```
+   User A selects "Share" on an algorithm
+   → Frontend prompts for User B's email/username and permission (view/edit)
+   → Backend validates User B existence
+   → Backend creates `algorithm_shares` record
+   → User B notified via real-time update/email
+   → User B accesses algorithm from "Shared with Me" library
+   → Backend validates permission on every access/edit
    ```
 
    **Flow 3: Visualization Flow**

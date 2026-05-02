@@ -60,8 +60,10 @@ Frontend built with Next.js 14+, TypeScript, Monaco Editor, D3.js, React Flow, a
 **Components:**
 - `CodeEditor.tsx` - Main editor wrapper
 - `EditorToolbar.tsx` - Execute, stop, reset controls
-- `LanguageSelector.tsx` - Language dropdown
-- `ThemeSelector.tsx` - Theme switcher
+- `shared/`
+  - `AlgorithmSelector.tsx` - Searchable dropdown
+  - `ShareModal.tsx` - Permission management UI
+  - `SaveDialog.tsx` - Save/Save As functionality
 
 ### Task 2.2.2: Visualization Components
 **Implementation:**
@@ -142,6 +144,9 @@ Frontend built with Next.js 14+, TypeScript, Monaco Editor, D3.js, React Flow, a
 - useStopExecution
 - useGetAlgorithms
 - useGetExecutionHistory
+- useSaveAlgorithm (Persistence)
+- useShareAlgorithm (Collaboration)
+- useGetAlgorithmShares (Permissions)
 ```
 
 ### Task 2.3.3: WebSocket Integration
@@ -182,16 +187,26 @@ Frontend built with Next.js 14+, TypeScript, Monaco Editor, D3.js, React Flow, a
 └─────────────────────────────────────────────────┘
 ```
 
+**Persistence & Collaboration UI:**
+- **Toolbar Actions**: Add "Save", "Save As", and "Share" buttons to the main toolbar.
+- **Sharing Status Indicator**: Show icons for 'Private', 'Shared (View)', or 'Shared (Edit)' next to the algorithm title.
+- **Collaborator List**: Floating avatar list of active users currently viewing/editing the algorithm.
+- **Conflict UI**: Toast notifications for concurrent edit conflicts.
+
 ### Task 2.4.3: Algorithm Library Page
 - Grid/list view of algorithms
 - Search and filter
 - Category navigation
 - Algorithm details modal
+- **My Algorithms**: Personal collection with rename/delete actions.
+- **Shared with Me**: List of algorithms with owner names and permission badges.
+- **Algorithm Templates**: System-provided base algorithms for starting new work.
 
 ### Task 2.4.4: History Page
 - Execution history list
 - Replay functionality
-- Export/share options
+- Export/share options (Persistence link, JSON export)
+- Collaboration tab (Shared with Me)
 
 **Deliverables**: All pages implemented with routing
 

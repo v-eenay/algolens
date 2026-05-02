@@ -7,10 +7,9 @@ import { ChevronDown, Code2, Loader2, PlayCircle } from 'lucide-react';
 import type { MockCodeEditorPanelProps } from '@/lib/types/types';
 import { useExecutionStore } from '@/lib/store/executionStore';
 
-export function MockCodeEditorPanel({
+export function CodeEditorPanel({
   filename,
   activeLine,
-  isLoading = false,
 }: MockCodeEditorPanelProps) {
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<typeof Monaco | null>(null);
@@ -165,15 +164,7 @@ export function MockCodeEditorPanel({
     }
   }, [code, isEditorReady]);
 
-  if (isLoading) {
-    return (
-      <section className="flex h-full min-h-[26rem] flex-col items-center justify-center rounded border border-border bg-card p-2">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="mt-2 text-sm text-muted-foreground">Loading editor…</p>
-      </section>
-    );
-  }
-
+  // (isLoading removed since code editor relies on Zustand)
   return (
     <section className="flex h-full min-h-[26rem] flex-col rounded border border-border bg-card p-2">
       {/* ── Header ─────────────────────────────────────────────── */}

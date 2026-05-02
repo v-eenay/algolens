@@ -2,70 +2,88 @@
 # ProGyan AlgoLens - Comprehensive .gitignore
 # ============================================
 
-# ===== Documentation Files (Summary/Complete) =====
+# ===== Documentation & Summaries =====
 IMPLEMENTATION_SUMMARY.md
 PROJECT_SKELETON_SUMMARY.md
 INTEGRATION_COMPLETE.md
 *_SUMMARY.md
 *_COMPLETE.md
+.project_plan/
 
 # ===== Dependencies =====
 node_modules/
 jspm_packages/
 bower_components/
+frontend/node_modules/
+backend/node_modules/
+
+# ===== Next.js / React Build Artifacts =====
+.next/
+frontend/.next/
+out/
+frontend/out/
+build/
+frontend/build/
+dist/
+.turbo/
+frontend/.turbo/
+.vercel/
+.netlify/
+.cache/
+.parcel-cache/
+.sass-cache/
+*.tsbuildinfo
+next-env.d.ts
+
+# ===== Python =====
 __pycache__/
+backend/__pycache__/
+execution-engine/__pycache__/
+ai-service/__pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 *$py.class
 *.so
 .Python
 pip-log.txt
-pip-delete-this-directory.txt
 
-# Python build artifacts
-/build/
-/develop-eggs/
-/dist/
-/downloads/
-/eggs/
-/.eggs/
-/lib/
-/lib64/
-/parts/
-/sdist/
-/var/
-/wheels/
-/share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# ===== Virtual Environments =====
+# Virtual Environments
 venv/
-ENV/
-env/
 .venv/
-.env/
+env/
+ENV/
 virtualenv/
 pipenv/
 poetry.lock
+
+# Python Caches
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
 
 # ===== IDEs and Editors =====
 .vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
 *.swp
 *.swo
 *.swn
 *~
-.DS_Store
 *.sublime-project
 *.sublime-workspace
 .project
 .classpath
-.c9/
-*.launch
 .settings/
 *.code-workspace
 
@@ -78,73 +96,10 @@ poetry.lock
 .env.*.local
 *.env
 !.env.example
+!.env.template
 secrets/
 *.pem
 *.key
-*.crt
-*.p12
-*.pfx
-config/secrets.yml
-config/credentials.yml.enc
-
-# ===== Frontend (Next.js / React) =====
-frontend/.next/
-frontend/out/
-frontend/build/
-frontend/.turbo/
-.next/
-out/
-.turbo/
-.vercel
-.netlify
-
-# Frontend dependencies
-frontend/node_modules/
-frontend/.pnp
-frontend/.pnp.js
-frontend/.yarn/cache
-frontend/.yarn/unplugged
-frontend/.yarn/build-state.yml
-frontend/.yarn/install-state.gz
-
-# ===== Backend (Python / FastAPI) =====
-backend/__pycache__/
-backend/*.py[cod]
-backend/instance/
-backend/.webassets-cache
-backend/celerybeat-schedule
-backend/celerybeat.pid
-
-# ===== Execution Engine =====
-execution-engine/__pycache__/
-execution-engine/sandbox/
-execution-engine/temp/
-execution-engine/*.pyc
-
-# ===== AI Service =====
-ai-service/__pycache__/
-ai-service/models/
-ai-service/cache/
-ai-service/vector_store/
-
-# ===== Testing =====
-coverage/
-.nyc_output/
-*.cover
-.hypothesis/
-.pytest_cache/
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-nosetests.xml
-coverage.xml
-*.coveragerc
-junit.xml
-test-results/
-playwright-report/
-test-output/
 
 # ===== Logs =====
 logs/
@@ -152,45 +107,42 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-lerna-debug.log*
 pnpm-debug.log*
 pip-log.txt
-celery-*.log
+build.log
 
 # ===== OS Files =====
 .DS_Store
 .DS_Store?
 ._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+ehthumbs.db
 Desktop.ini
-$RECYCLE.BIN/
 
-# ===== Docker =====
-*.pid
-*.seed
-*.pid.lock
-docker-compose.override.yml
-.dockerignore
-
-# ===== Temporary Files =====
+# ===== Runtime & Temporary Files =====
+execution-engine/sandbox/
+execution-engine/temp/
+ai-service/cache/
+ai-service/vector_store/
 *.tmp
 *.temp
 *.bak
 *.backup
-.cache/
-.parcel-cache/
-.sass-cache/
-*.swp
-*.swo
+*.pid
+*.seed
+*.pid.lock
 
-# ===== Build Outputs =====
-*.pyc
-*.pyo
-*.pyd
-*.so
+# ===== Database & Data =====
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+data/
+pgdata/
+redis-data/
+
+# ===== Misc Build Outputs =====
 *.dylib
 *.dll
 *.exe
@@ -201,67 +153,7 @@ docker-compose.override.yml
 *.war
 *.ear
 
-# ===== Database =====
-*.db
-*.sqlite
-*.sqlite3
-*.db-shm
-*.db-wal
-data/
-pgdata/
-redis-data/
-
-# ===== Terraform =====
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfstate.backup
-.terraform.lock.hcl
-terraform.tfvars
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
-crash.log
-crash.*.log
-
-# ===== Kubernetes =====
-*.kubeconfig
-kubeconfig
-.kube/
-
-# ===== Monitoring & Observability =====
-prometheus-data/
-grafana-data/
-*.pprof
-
-# ===== Package Manager Locks (keep these) =====
-# Uncomment if you want to ignore lock files
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-
-# ===== Documentation Build =====
-docs/_build/
-docs/.doctrees/
-site/
-
-# ===== Misc =====
-.vercel
-.serverless/
-.fusebox/
-.dynamodb/
-.tern-port
-.vscode-test
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
-*.tsbuildinfo
-next-env.d.ts
-
-# ===== AI/ML Models (large files) =====
+# ===== AI/ML Models =====
 *.h5
 *.pkl
 *.pickle
@@ -274,8 +166,3 @@ next-env.d.ts
 
 # ===== Keep Important Files =====
 !.gitkeep
-!.env.example
-!.env.template
-
-# ===== Project Planning Documents =====
-.project_plan/
