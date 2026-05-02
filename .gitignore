@@ -276,3 +276,6 @@ next-env.d.ts
 !.gitkeep
 !.env.example
 !.env.template
+
+# ===== Project Planning Documents =====
+.project_plan/

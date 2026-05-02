@@ -8,6 +8,8 @@ import { SideDescriptionPanel } from '@/components/ai-explanation/side-descripti
 import { BottomDock } from '@/components/layout/bottom-dock';
 import { TopNav } from '@/components/layout/top-nav';
 import { EnhancedVisualizationPanel } from '@/components/visualization/enhanced-visualization-panel';
+import { useExecutionStore } from '@/lib/store/executionStore';
+import { useExecutionSocket } from '@/lib/hooks/useExecutionSocket';
 
 import {
   sendChatMessage,
@@ -17,7 +19,6 @@ import type {
   ChatMessage,
   EditorLanguage,
   EditorStateMap,
-  ExecutionFrame,
   ThemeMode,
   VisualizerTab,
 } from '@/lib/types/types';
@@ -35,7 +36,7 @@ export default function Home() {
   const [, setAlgorithmData] = useState<any>(null);
 
   // ── UI state ──────────────────────────────────────────────────────────────
-  const [language, setLanguage] = useState<EditorLanguage>('Python');
+  const language = useExecutionStore((state) => state.language) as EditorLanguage;
   const [visualizerTab, setVisualizerTab] = useState<VisualizerTab>('animated');
   const [sidePanelOpen, setSidePanelOpen] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(true);
@@ -47,18 +48,33 @@ export default function Home() {
     notes: true,
   });
 
+  // ── WebSocket ─────────────────────────────────────────────────────────────
+  const { sendCode, isConnected, connectionStatus } = useExecutionSocket();
+
   // ── Data state ────────────────────────────────────────────────────────────
   const [editorState, setEditorState] = useState<EditorStateMap | null>(null);
-  const [frames, setFrames] = useState<ExecutionFrame[]>([]);
+  const frames = useExecutionStore((state) => state.frames);
+  const setFrames = useExecutionStore((state) => state.setFrames);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [isLoadingEditor, setIsLoadingEditor] = useState(true);
   const [isLoadingFrames, setIsLoadingFrames] = useState(true);
   const [isLoadingChat, setIsLoadingChat] = useState(true);
 
   // ── Playback state ────────────────────────────────────────────────────────
-  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const currentFrameIndex = useExecutionStore((state) => state.currentFrameIndex);
+  const setCurrentFrameIndex = useExecutionStore((state) => state.setCurrentFrameIndex);
+  const isPlaying = useExecutionStore((state) => state.isPlaying);
+  const setIsPlaying = useExecutionStore((state) => state.setIsPlaying);
+  const setCode = useExecutionStore((state) => state.setCode);
+  
   const playIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Sync editor code with store when changing language or algorithm
+  useEffect(() => {
+    if (editorState && editorState[language]) {
+      setCode(editorState[language].lines.join('\n'));
+    }
+  }, [language, editorState, setCode]);
 
   // ── Theme sync ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -123,20 +139,14 @@ export default function Home() {
     };
 
     loadAlgorithmData();
-  }, [selectedAlgorithm]);
+  }, [selectedAlgorithm, setCurrentFrameIndex, setFrames]);
 
   // ── Playback interval ─────────────────────────────────────────────────────
+  const nextFrame = useExecutionStore((state) => state.nextFrame);
   useEffect(() => {
     if (isPlaying && frames.length > 0) {
       playIntervalRef.current = setInterval(() => {
-        setCurrentFrameIndex((prev) => {
-          const next = prev + 1;
-          if (next >= frames.length) {
-            setIsPlaying(false);
-            return prev;
-          }
-          return next;
-        });
+        nextFrame();
       }, 1200);
     }
 
@@ -146,14 +156,14 @@ export default function Home() {
         playIntervalRef.current = null;
       }
     };
-  }, [isPlaying, frames.length]);
+  }, [isPlaying, frames.length, nextFrame]);
 
   // ── Stop playback when reaching end ───────────────────────────────────────
   useEffect(() => {
     if (currentFrameIndex >= frames.length - 1 && isPlaying) {
       setIsPlaying(false);
     }
-  }, [currentFrameIndex, frames.length, isPlaying]);
+  }, [currentFrameIndex, frames.length, isPlaying, setIsPlaying]);
 
   // ── Derived data ──────────────────────────────────────────────────────────
   const rawCurrentFrame = frames[currentFrameIndex] ?? null;
@@ -174,34 +184,31 @@ export default function Home() {
   }, []);
 
   const handlePlayToggle = useCallback(() => {
-    setIsPlaying((prev) => {
-      // If at end, reset to start before playing
-      if (!prev && currentFrameIndex >= frames.length - 1) {
-        setCurrentFrameIndex(0);
-      }
-      return !prev;
-    });
-  }, [currentFrameIndex, frames.length]);
+    if (!isPlaying && currentFrameIndex >= frames.length - 1) {
+      setCurrentFrameIndex(0);
+    }
+    setIsPlaying(!isPlaying);
+  }, [currentFrameIndex, frames.length, isPlaying, setCurrentFrameIndex, setIsPlaying]);
 
   const handleStop = useCallback(() => {
     setIsPlaying(false);
     setCurrentFrameIndex(0);
-  }, []);
+  }, [setIsPlaying, setCurrentFrameIndex]);
 
   const handleStepBackward = useCallback(() => {
     setIsPlaying(false);
-    setCurrentFrameIndex((prev) => Math.max(0, prev - 1));
-  }, []);
+    setCurrentFrameIndex(Math.max(0, currentFrameIndex - 1));
+  }, [currentFrameIndex, setIsPlaying, setCurrentFrameIndex]);
 
   const handleStepForward = useCallback(() => {
     setIsPlaying(false);
-    setCurrentFrameIndex((prev) => Math.min(frames.length - 1, prev + 1));
-  }, [frames.length]);
+    setCurrentFrameIndex(Math.min(frames.length - 1, currentFrameIndex + 1));
+  }, [currentFrameIndex, frames.length, setIsPlaying, setCurrentFrameIndex]);
 
   const handleFrameChange = useCallback((idx: number) => {
     setIsPlaying(false);
     setCurrentFrameIndex(idx);
-  }, []);
+  }, [setIsPlaying, setCurrentFrameIndex]);
 
   const handleSendMessage = useCallback(async (message: string) => {
     const { userMsg, assistantMsg } = await sendChatMessage(message);
@@ -249,6 +256,20 @@ export default function Home() {
             onToggleTheme={handleThemeToggle}
             onTogglePanel={handleTogglePanel}
           />
+          
+          {/* Temporary WebSocket Test Button */}
+          <div className="absolute top-4 right-[350px] z-50 flex items-center gap-2 bg-background/80 p-2 rounded border border-border backdrop-blur-sm">
+            <div className="flex items-center gap-2 text-xs">
+              <span className={`h-2.5 w-2.5 rounded-full ${isConnected ? 'bg-green-500' : connectionStatus === 'connecting' ? 'bg-yellow-500' : 'bg-red-500'}`} />
+              <span className="capitalize">{connectionStatus}</span>
+            </div>
+            <button 
+              onClick={() => sendCode("a=1\nb=2\nc=a+b", "Python")}
+              className="bg-primary text-primary-foreground px-3 py-1 rounded text-sm font-medium hover:bg-primary/90 transition-colors"
+            >
+              Test WebSocket
+            </button>
+          </div>
         </div>
 
         {/* ── Main content ────────────────────────────────────── */}
@@ -268,11 +289,8 @@ export default function Home() {
                 className="min-h-[26rem]"
               >
                 <MockCodeEditorPanel
-                  language={language}
-                  lines={currentEditorLang?.lines ?? []}
                   filename={currentEditorLang?.filename ?? 'loading…'}
                   activeLine={currentFrame?.activeLine ?? 1}
-                  onLanguageChange={setLanguage}
                   isLoading={isLoadingEditor}
                 />
               </motion.div>
@@ -290,9 +308,6 @@ export default function Home() {
               >
                 <EnhancedVisualizationPanel
                   activeTab={visualizerTab}
-                  currentFrame={currentFrame}
-                  totalFrames={frames.length || 1}
-                  isPlaying={isPlaying}
                   onTabChange={setVisualizerTab}
                   isLoading={isLoadingFrames}
                 />

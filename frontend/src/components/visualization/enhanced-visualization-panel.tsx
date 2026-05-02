@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Boxes, Loader2, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import type { VisualizationPanelProps } from '@/lib/types/types';
+import { useExecutionStore } from '@/lib/store/executionStore';
 
 // ---------------------------------------------------------------------------
 // Type definitions for enhanced visualizations
@@ -708,12 +709,23 @@ function EnhancedDryRunTrace({ frame }: { frame: any }) {
 
 export function EnhancedVisualizationPanel({
   activeTab,
-  currentFrame,
-  totalFrames,
-  isPlaying,
   onTabChange,
   isLoading = false,
 }: VisualizationPanelProps) {
+  const frames = useExecutionStore((state) => state.frames);
+  const currentFrameIndex = useExecutionStore((state) => state.currentFrameIndex);
+  const isPlaying = useExecutionStore((state) => state.isPlaying);
+  
+  const rawCurrentFrame = frames[currentFrameIndex] ?? null;
+  let activeLine = 1;
+  const language = useExecutionStore((state) => state.language);
+  if (rawCurrentFrame?.activeLine !== undefined) {
+    activeLine = typeof rawCurrentFrame.activeLine === 'object' 
+      ? (rawCurrentFrame.activeLine as any)[language] || 1
+      : rawCurrentFrame.activeLine;
+  }
+  const currentFrame = rawCurrentFrame ? { ...rawCurrentFrame, activeLine } : null;
+  const totalFrames = frames.length || 1;
   if (isLoading || !currentFrame) {
     return (
       <section className="flex h-full min-h-[26rem] flex-col items-center justify-center rounded border border-border bg-card p-2">

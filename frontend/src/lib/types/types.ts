@@ -62,19 +62,13 @@ export interface AIChatData {
 // ---------------------------------------------------------------------------
 
 export interface MockCodeEditorPanelProps {
-  language: EditorLanguage;
-  lines: string[];
   filename: string;
   activeLine: number;
-  onLanguageChange: (lang: EditorLanguage) => void;
   isLoading?: boolean;
 }
 
 export interface VisualizationPanelProps {
   activeTab: VisualizerTab;
-  currentFrame: ExecutionFrame | null;
-  totalFrames: number;
-  isPlaying: boolean;
   onTabChange: (tab: VisualizerTab) => void;
   isLoading?: boolean;
 }
